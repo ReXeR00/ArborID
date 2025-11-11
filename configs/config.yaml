@@ -1,0 +1,11 @@
+# conf/config.yaml
+defaults:
+  - train: train
+  - model: resnet18
+  - optimizer: adamw
+
+hydra:
+  run:
+    dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}

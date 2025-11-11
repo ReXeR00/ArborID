@@ -1,0 +1,6 @@
+# conf/model/resnet18.yaml
+name: resnet18
+pretrained: true
+freeze_backbone: false
+dropout: 0.2
+num_classes_override: null   

@@ -1,0 +1,6 @@
+# conf/model/mlp.yaml
+name: mlp
+hidden_dim: 256
+dropout: 0.2
+pretrained: false
+freeze_backbone: false
