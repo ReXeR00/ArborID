@@ -1,5 +1,5 @@
-# conf/optimizer/adamw.yaml
+# configs/optimizer/adamw.yaml
 name: adamw
-lr: 3e-5
+lr: 1e-4
 weight_decay: 1e-4
 betas: [0.9, 0.999]

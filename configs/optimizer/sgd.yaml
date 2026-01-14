@@ -1,6 +1,6 @@
-# conf/optimizer/sgd.yaml
+# configs/optimizer/sgd.yaml
 name: sgd
 lr: 1e-2
 momentum: 0.9
-weight_decay: 1e-4
+weight_decay: 1e-2
 nesterov: true

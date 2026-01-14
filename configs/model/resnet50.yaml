@@ -1,5 +1,5 @@
-# conf/model/resnet18.yaml
-name: resnet18
+# configs/model/resnet18.yaml
+name: resnet50
 pretrained: true
 freeze_backbone: false
 dropout: 0.2

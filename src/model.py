@@ -1,13 +1,13 @@
 from torch import nn
-from torchvision.models import resnet18, ResNet18_Weights
+from torchvision.models import resnet50, ResNet50_Weights
 
 
 
 def model(num_classes: int, pretrained: bool, freeze_backbone: bool, dropout: float):
 
-    weights = ResNet18_Weights.DEFAULT if pretrained else None
+    weights = ResNet50_Weights.DEFAULT if pretrained else None
 
-    m  = resnet18(weights=weights)
+    m  = resnet50(weights=weights)
     
 
     if freeze_backbone:
@@ -17,21 +17,27 @@ def model(num_classes: int, pretrained: bool, freeze_backbone: bool, dropout: fl
     in_feats = m.fc.in_features
     m.fc = nn.Sequential(
         nn.Dropout(0.2),
-        nn.Linear(in_feats, num_classes)
+        nn.Linear(in_feats, 512),
+        nn.BatchNorm1d(512),
+        nn.ReLU(),
+        nn.Dropout(dropout),
+        nn.Linear(512, 256),
+        nn.BatchNorm1d(256),
+        nn.ReLU(),
+        nn.Linear(256, num_classes)
     )
     return m 
 
 def model_from_cfg(cfg_model, num_classes: int):
     name = cfg_model.name.lower()
-    if name == "resnet18":
-        return build_resnet18(
+    if name == "resnet50":
+        return model(
             num_classes=num_classes,
             pretrained=bool(cfg_model.pretrained),
             freeze_backbone=bool(cfg_model.freeze_backbone),
             dropout=float(cfg_model.dropout),
         )
     elif name == "mlp":
-        # placeholder — dla spójności
         return nn.Sequential(
             nn.Flatten(),
             nn.Linear(3 * 224 * 224, int(cfg_model.hidden_dim)),

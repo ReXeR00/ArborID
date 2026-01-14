@@ -1,0 +1,6 @@
+# configs/train.yaml
+seed: 42
+epochs: 10 
+amp_dtype: "fp16" 
+save_best_by: "val_acc" 
+log_interval: 50

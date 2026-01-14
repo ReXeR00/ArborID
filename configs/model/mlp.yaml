@@ -1,4 +1,4 @@
-# conf/model/mlp.yaml
+# configs/model/mlp.yaml
 name: mlp
 hidden_dim: 256
 dropout: 0.2
