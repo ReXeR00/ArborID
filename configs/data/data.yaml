@@ -1,7 +1,0 @@
-#configs/data.yaml
-
-root: data/raw
-batch_size: 32
-num_workers: 0
-pin_memory: true
-img_size: 224

@@ -1,32 +1,10 @@
-# eval_folder.py
-"""
-Evaluate a trained ArborID model on a folder structured like torchvision ImageFolder:
-
-data/external/
-  oak/
-    001.jpg
-    ...
-  birch/
-  ...
-
-It reports:
-- top-1 accuracy
-- top-3 accuracy
-- per-class accuracy
-- confusion matrix
-- "uncertain" rate (max prob < threshold)
-- saves a CSV with per-image predictions + a CSV with worst confident mistakes
-
-Optionally supports patch voting (random patches per image) via --patches N
-(best for bark/textures, no retraining required).
-"""
-
 from __future__ import annotations
 
 import argparse
 import csv
 import json
 import random
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -35,9 +13,14 @@ import numpy as np
 import torch
 from PIL import Image
 from omegaconf import DictConfig, OmegaConf
+from torchvision.transforms import functional as TF
 
-from model import model_from_cfg
-from transforms import get_transforms
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from src.model.model import model_from_cfg
+from src.data.transforms import get_transforms
 
 
 # ----------------------------
@@ -88,7 +71,9 @@ def load_state_dict(checkpoint_path: Path, device: torch.device) -> dict[str, An
         if "model" in obj and isinstance(obj["model"], dict):
             return obj["model"]
         return obj  # already a state_dict-like mapping
-
+    
+    
+    
     raise ValueError(f"Unsupported checkpoint format: {type(obj)}")
 
 
@@ -129,6 +114,8 @@ class Engine:
 
         # IMPORTANT: use the same val preprocessing as training/inference
         _, self.val_tfms = get_transforms()
+        self.patch_mean = getattr(self.val_tfms, "mean", None)
+        self.patch_std = getattr(self.val_tfms, "std", None)
 
     @classmethod
     def from_run_dir(cls, run_dir: Path, device: torch.device | None = None) -> "Engine":
@@ -186,15 +173,26 @@ class Engine:
         probs = self._predict_tensor_batch(x)[0].detach().cpu()
         return probs
 
-    def predict_pil_patch_voting(self, img: Image.Image, patches: int, crop_size: int = 224) -> torch.Tensor:
-        """
-        Random patch voting:
-        - Upscale if needed so min(H,W) >= crop_size
-        - Take `patches` random crops of size crop_size x crop_size
-        - Run model on each crop, average probabilities
+    def _preprocess_patch(self, crop: Image.Image, crop_size: int) -> torch.Tensor:
+        expected_crop = getattr(self.val_tfms, "crop_size", None)
+        if isinstance(expected_crop, list) and len(expected_crop) == 1:
+            expected_crop = expected_crop[0]
 
-        returns probs: [C] on CPU
-        """
+        if self.patch_mean is not None and self.patch_std is not None and crop_size == expected_crop:
+            x = TF.pil_to_tensor(crop)
+            x = TF.convert_image_dtype(x, torch.float32)
+            return TF.normalize(x, mean=self.patch_mean, std=self.patch_std)
+
+        return self.val_tfms(crop)
+
+    def predict_pil_patch_voting(
+        self,
+        img: Image.Image,
+        patches: int,
+        crop_size: int = 224,
+        patch_batch_size: int = 32,
+    ) -> torch.Tensor:
+
         if patches <= 1:
             return self.predict_pil(img)
 
@@ -209,16 +207,31 @@ class Engine:
             img = img.resize((new_w, new_h), resample=Image.BILINEAR)
             w, h = img.size
 
+        patch_batch_size = max(1, int(patch_batch_size))
+        prob_sum = None
+        processed = 0
         crops = []
+
+        def flush_crops() -> None:
+            nonlocal crops, prob_sum, processed
+            if not crops:
+                return
+            batch = torch.stack(crops, dim=0).to(self.device)
+            probs = self._predict_tensor_batch(batch).sum(dim=0)
+            prob_sum = probs if prob_sum is None else prob_sum + probs
+            processed += len(crops)
+            crops = []
+
         for _ in range(patches):
             left = random.randint(0, max(0, w - crop_size))
             top = random.randint(0, max(0, h - crop_size))
             crop = img.crop((left, top, left + crop_size, top + crop_size))
-            crops.append(self.val_tfms(crop))  # tensor [3,224,224] (or equivalent)
+            crops.append(self._preprocess_patch(crop, crop_size=crop_size))
+            if len(crops) >= patch_batch_size:
+                flush_crops()
 
-        batch = torch.stack(crops, dim=0).to(self.device)  # [P,3,H,W]
-        probs = self._predict_tensor_batch(batch).mean(dim=0).detach().cpu()  # [C]
-        return probs
+        flush_crops()
+        return (prob_sum / processed).detach().cpu()
 
 
 # ----------------------------
@@ -231,31 +244,59 @@ def evaluate_folder(
     threshold: float = 0.45,
     patches: int = 0,
     crop_size: int = 224,
+    patch_batch_size: int = 32,
+    progress_interval: int = 10,
 ) -> tuple[list[EvalResult], dict[str, Any]]:
     data_dir = Path(data_dir)
+    if not data_dir.exists():
+        suggested_dir = PROJECT_ROOT / "src" / data_dir
+        if suggested_dir.exists():
+            print(f"[INFO] data_dir not found at {data_dir}; using {suggested_dir} instead.")
+            data_dir = suggested_dir
+        else:
+            suggestion = f" Did you mean: {suggested_dir}?"
+            raise FileNotFoundError(
+                f"Evaluation data directory does not exist: {data_dir}. "
+                "Pass --data_dir to a folder containing class subfolders."
+                f"{suggestion}"
+            )
+    if not data_dir.is_dir():
+        raise NotADirectoryError(f"Evaluation data path is not a directory: {data_dir}.")
 
     # Only evaluate folders that exist in class_to_idx
     class_folders = [p for p in data_dir.iterdir() if p.is_dir()]
     class_folders = sorted(class_folders, key=lambda p: p.name)
 
-    eval_classes = []
+    lower_to_class = {k.lower(): k for k in engine.class_to_idx}
+
+    eval_folders: list[tuple[Path, str]] = []
     skipped = []
     for p in class_folders:
-        if p.name in engine.class_to_idx:
-            eval_classes.append(p.name)
+        canonical = lower_to_class.get(p.name.lower())
+        if canonical is not None:
+            eval_folders.append((p, canonical))
         else:
             skipped.append(p.name)
 
     if skipped:
         print("[WARN] Skipping folders not present in class_to_idx.json:", skipped)
 
-    if not eval_classes:
-        raise ValueError("No valid class folders found to evaluate.")
+    if not eval_folders:
+        print("[DEBUG] class_folders found:", [p.name for p in class_folders])
+        print("[DEBUG] class_to_idx keys:  ", sorted(engine.class_to_idx.keys()))
+        found = ", ".join(p.name for p in class_folders) or "<none>"
+        expected = ", ".join(sorted(engine.class_to_idx.keys()))
+        raise ValueError(
+            "No valid class folders found to evaluate. "
+            f"Found folders: {found}. Expected folders matching the checkpoint classes: {expected}."
+        )
+
+    eval_classes = [class_name for _, class_name in eval_folders]
 
     # gather samples
     samples: list[tuple[Path, str]] = []
-    for cls_name in eval_classes:
-        for img_path in list_images(data_dir / cls_name):
+    for folder_path, cls_name in eval_folders:
+        for img_path in list_images(folder_path):
             samples.append((img_path, cls_name))
 
     if not samples:
@@ -275,11 +316,18 @@ def evaluate_folder(
 
     results: list[EvalResult] = []
 
-    for img_path, true_label in samples:
+    for sample_idx, (img_path, true_label) in enumerate(samples, start=1):
+        if progress_interval > 0 and (sample_idx == 1 or sample_idx % progress_interval == 0 or sample_idx == len(samples)):
+            print(f"[INFO] Evaluating {sample_idx}/{len(samples)}: {img_path}")
         img = Image.open(img_path)
 
         if patches and patches > 1:
-            probs = engine.predict_pil_patch_voting(img, patches=patches, crop_size=crop_size)
+            probs = engine.predict_pil_patch_voting(
+                img,
+                patches=patches,
+                crop_size=crop_size,
+                patch_batch_size=patch_batch_size,
+            )
         else:
             probs = engine.predict_pil(img)
 
@@ -333,6 +381,7 @@ def evaluate_folder(
         "topk": topk,
         "patches": patches,
         "crop_size": crop_size,
+        "patch_batch_size": patch_batch_size,
         "eval_classes": eval_classes,
         "per_class": {
             c: {
@@ -377,6 +426,7 @@ def print_confusion_matrix(conf: np.ndarray, idx_to_class: dict[int, str], only_
 
 
 def save_csv(results: list[EvalResult], out_path: Path) -> None:
+
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
@@ -431,11 +481,14 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--threshold", type=float, default=0.45, help="Uncertain threshold for max prob")
     p.add_argument("--patches", type=int, default=0, help="If >1, use random patch voting with this many patches")
     p.add_argument("--crop_size", type=int, default=224, help="Patch size for patch voting")
+    p.add_argument("--patch_batch_size", type=int, default=32, help="Patch-voting inference batch size")
+    p.add_argument("--progress_interval", type=int, default=10, help="Print progress every N images (0 disables)")
     p.add_argument("--seed", type=int, default=0, help="Seed for reproducibility (also used for patch sampling)")
     p.add_argument("--out_csv", type=str, default="", help="Where to save per-image CSV (default: <run_dir>/eval_folder.csv)")
     p.add_argument("--out_worst_csv", type=str, default="", help="Where to save worst mistakes CSV (default: <run_dir>/eval_worst_confident.csv)")
     p.add_argument("--worst_min_prob", type=float, default=0.60, help="Min prob for 'confident mistake'")
     p.add_argument("--worst_limit", type=int, default=50, help="Max rows in worst mistakes CSV")
+    p.add_argument("--eval_root", type=Path, default=Path("eval"), help="Root directory for evaluation outputs (default: eval/)")
     return p.parse_args()
 
 
@@ -460,6 +513,8 @@ def main() -> None:
         threshold=args.threshold,
         patches=args.patches,
         crop_size=args.crop_size,
+        patch_batch_size=args.patch_batch_size,
+        progress_interval=args.progress_interval,
     )
 
     print("\n=== Summary ===")
@@ -483,8 +538,15 @@ def main() -> None:
         only_labels=summary["eval_classes"],
     )
 
-    out_csv = Path(args.out_csv) if args.out_csv else (run_dir / "eval_folder.csv")
-    out_worst = Path(args.out_worst_csv) if args.out_worst_csv else (run_dir / "eval_worst_confident.csv")
+    run_tag = run_dir.name
+    eval_tag = f"{run_tag}-p{args.patches}"
+    out_dir = args.eval_root / eval_tag
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+
+
+    out_csv = Path(args.out_csv) if args.out_csv else (out_dir / "eval_folder.csv")
+    out_worst = Path(args.out_worst_csv) if args.out_worst_csv else (out_dir / "eval_worst_confident.csv")
 
     save_csv(results, out_csv)
     save_worst_confident_mistakes(results, out_worst, min_prob=args.worst_min_prob, limit=args.worst_limit)
@@ -492,7 +554,13 @@ def main() -> None:
     print("\nSaved:")
     print("  - per-image results :", out_csv)
     print("  - worst mistakes    :", out_worst)
+    class_to_idx = load_class_to_idx(run_dir)
+    idx_to_class = {v: k for k, v in class_to_idx.items()}
 
+    print("Loaded class_to_idx:", class_to_idx)
+    print("idx_to_class:", idx_to_class)
+    loaded_class_to_idx = load_class_to_idx(args.run_dir)
 
+    print("Loaded class_to_idx:", loaded_class_to_idx)
 if __name__ == "__main__":
     main()

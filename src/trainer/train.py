@@ -2,23 +2,32 @@
 
 from pathlib import Path
 import hashlib
+import sys
 
 from omegaconf import DictConfig, OmegaConf
 import hydra
 from hydra.utils import get_original_cwd
-
-
+import json
 import torch
 import torch.nn as nn
+from collections import Counter
 
-from data import get_loader          
-from model import model_from_cfg     
-from evaluation import evaluate      
-from utils import set_seed, setup_amp
+from src.data.loader import get_loader   
+from src.model.model import model_from_cfg     
+from src.evaluation.evaluation import evaluate   
+
+from src.trainer.utils import set_seed, setup_amp
+from src.trainer.early_stopping import EarlyStopping
+
 
 import logging
 logger = logging.getLogger(__name__)
 from hydra.core.hydra_config import HydraConfig
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 
 
 # -------------------------------------------------
@@ -35,20 +44,20 @@ def main(cfg: DictConfig) -> None:
     # Basic config printout
     print("Config:\n", OmegaConf.to_yaml(cfg))
     train_cfg = cfg.train
-    model_cfg = cfg.model
     optim_cfg = cfg.optimizer
     data_cfg = cfg.data
 
-    # -------------------------------------------------
-    # Setup
-    # -------------------------------------------------
+# -------------------------------------------------
+# Setup
+# -------------------------------------------------
     set_seed(cfg.train.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
+    grad_clip_norm = float(getattr(train_cfg, "grad_clip_norm", 1.0))
 
-    # -------------------------------------------------
-    # Data
-    # -------------------------------------------------
+# -------------------------------------------------
+# Data
+# -------------------------------------------------
     
 
     project_root = Path(get_original_cwd())
@@ -58,13 +67,23 @@ def main(cfg: DictConfig) -> None:
 
     
     artifacts_dir = run_dir / "artifacts"
+    artifacts_dir.mkdir(parents=True, exist_ok=True)
+    history_path = artifacts_dir / "history.json"
+
+    max_images_per_class = getattr(data_cfg, "max_images_per_class", None)
 
     train_loader, val_loader, test_loader, classes = get_loader(
-        root=data_root,
-        artifacts_dir=artifacts_dir,
-        batch_size=cfg.data.batch_size,
-        num_workers=cfg.data.num_workers,
-        pin_memory=cfg.data.pin_memory,
+    root=data_root,
+    artifacts_dir=artifacts_dir,
+    batch_size=data_cfg.batch_size,
+    num_workers=data_cfg.num_workers,
+    pin_memory=data_cfg.pin_memory and torch.cuda.is_available(),
+    max_images_per_class=max_images_per_class,
+    val_size=data_cfg.val_size,
+    test_size=data_cfg.test_size,
+    seed=data_cfg.seed,
+    model_name=cfg.model.name,
+    use_weighted_sampler=getattr(data_cfg, "use_weighted_sampler", False),
     )
 
     num_classes = len(classes)
@@ -76,8 +95,9 @@ def main(cfg: DictConfig) -> None:
         num_classes = int(cfg.model.num_classes_override)
         print(f"[INFO] Overriding num_classes to {num_classes} from cfg.model.num_classes_override")
 
-    # -------------------------------------------------
-    # Sanity checks
+# -------------------------------------------------
+# Sanity checks
+# -------------------------------------------------
     train_ds = train_loader.dataset
     val_ds   = val_loader.dataset
     test_ds  = test_loader.dataset
@@ -116,11 +136,11 @@ def main(cfg: DictConfig) -> None:
     overlap_train_test = train_paths & test_paths
     overlap_val_test   = val_paths & test_paths
 
-    print(f"[SANITY] Path overlap train∩val:  {len(overlap_train_val)}")
-    print(f"[SANITY] Path overlap train∩test: {len(overlap_train_test)}")
-    print(f"[SANITY] Path overlap val∩test:   {len(overlap_val_test)}")
+    print(f"[SANITY] Path overlap train&val:  {len(overlap_train_val)}")
+    print(f"[SANITY] Path overlap train&test: {len(overlap_train_test)}")
+    print(f"[SANITY] Path overlap val&test:   {len(overlap_val_test)}")
 
-    # If overlaps exist, print a few examples
+    
     def _print_overlap(name, s, n=10):
         if len(s) == 0:
             return
@@ -128,11 +148,10 @@ def main(cfg: DictConfig) -> None:
         for i, p in enumerate(list(s)[:n]):
             print(f"  - {p}")
 
-    _print_overlap("train∩val", overlap_train_val)
-    _print_overlap("train∩test", overlap_train_test)
-    _print_overlap("val∩test", overlap_val_test)
-    # Optional: detect duplicates by file content (hash)
-
+    _print_overlap("train&val", overlap_train_val)
+    _print_overlap("train&test", overlap_train_test)
+    _print_overlap("val&test", overlap_val_test)
+    
     
 
     def file_md5(path: str, chunk_size: int = 1024 * 1024) -> str:
@@ -146,7 +165,7 @@ def main(cfg: DictConfig) -> None:
         return h.hexdigest()
 
     def build_hash_map(samples):
-        # samples: list of (path, class_idx)
+        
         m = {}
         for p, y in samples:
             hp = file_md5(p)
@@ -165,9 +184,9 @@ def main(cfg: DictConfig) -> None:
     h_overlap_train_test = train_set & test_set
     h_overlap_val_test   = val_set & test_set
 
-    print(f"[SANITY] Hash overlap train∩val:  {len(h_overlap_train_val)}")
-    print(f"[SANITY] Hash overlap train∩test: {len(h_overlap_train_test)}")
-    print(f"[SANITY] Hash overlap val∩test:   {len(h_overlap_val_test)}")
+    print(f"[SANITY] Hash overlap train&val:  {len(h_overlap_train_val)}")
+    print(f"[SANITY] Hash overlap train&test: {len(h_overlap_train_test)}")
+    print(f"[SANITY] Hash overlap val&test:   {len(h_overlap_val_test)}")
 
     def _print_hash_overlap(name, overlap_hashes, hm_a, hm_b, n=3):
         if len(overlap_hashes) == 0:
@@ -178,16 +197,16 @@ def main(cfg: DictConfig) -> None:
             print("   A:", hm_a[h][0])
             print("   B:", hm_b[h][0])
 
-    _print_hash_overlap("train∩val", h_overlap_train_val, train_hashes, val_hashes)
-    _print_hash_overlap("train∩test", h_overlap_train_test, train_hashes, test_hashes)
-    _print_hash_overlap("val∩test", h_overlap_val_test, val_hashes, test_hashes)
+    _print_hash_overlap("train&val", h_overlap_train_val, train_hashes, val_hashes)
+    _print_hash_overlap("train&test", h_overlap_train_test, train_hashes, test_hashes)
+    _print_hash_overlap("val&test", h_overlap_val_test, val_hashes, test_hashes)
 
     
 
 
-    # -------------------------------------------------
-    # Model
-    # -------------------------------------------------
+# -------------------------------------------------
+# Model
+# -------------------------------------------------
     model = model_from_cfg(cfg.model, num_classes=num_classes)
     model.to(device)
     print(f"Model:\n{model}")
@@ -195,9 +214,19 @@ def main(cfg: DictConfig) -> None:
     print("[DEBUG] trainable count:", len(trainable), "params:", sum(x[1] for x in trainable))
     print("[DEBUG] first trainable:", [n for n,_ in trainable[:20]])
 
-    # -------------------------------------------------
-    # Loss, optimizer, AMP
-    # -------------------------------------------------
+# -------------------------------------------------
+# Loss, optimizer, AMP
+# -------------------------------------------------
+    all_targets = [y for _, y in train_loader.dataset.samples]
+    counts = Counter(all_targets)
+    print("[DEBUG] class counts in train:", dict(sorted(counts.items())))
+
+    weights = torch.tensor(
+        [1.0 / counts.get(i, 1) for i in range(num_classes)],  
+        dtype=torch.float
+    ).to(device)
+    weights = weights / weights.sum() * num_classes
+
     criterion = nn.CrossEntropyLoss()
 
     opt_name = str(getattr(optim_cfg, "name", "adamw")).lower()
@@ -205,7 +234,7 @@ def main(cfg: DictConfig) -> None:
     weight_decay = float(getattr(optim_cfg, "weight_decay", 0.0))
 
     params_to_optimize = [p for p in model.parameters() if p.requires_grad]
-
+    
     if opt_name == "adamw":
         betas = tuple(getattr(optim_cfg, "betas", [0.9, 0.999]))
         optimizer = torch.optim.AdamW(
@@ -220,15 +249,43 @@ def main(cfg: DictConfig) -> None:
         )
     else:
         raise ValueError(f"Unknown optimizer: {opt_name}")
-
-    optimizer = torch.optim.AdamW(params_to_optimize, lr=lr, weight_decay=weight_decay)
     use_amp, scaler, amp_dtype = setup_amp(train_cfg.amp_dtype, device)
+# -------------------------------------------------
+# Train loop
+# -------------------------------------------------
 
-    # -------------------------------------------------
-    # Train loop
-    # -------------------------------------------------
-    best_metric = -float("inf")
-    metric_name = train_cfg.save_best_by  
+    grad_clip_norm = float(getattr(train_cfg, "grad_clip_norm", 1.0))
+
+    metric_registry = {
+        "val_acc":     {"mode": "max", "fn": lambda _, acc, __: acc},
+        "val_loss":    {"mode": "min", "fn": lambda loss, _, __: loss}, 
+        "val_macro_f1":{"mode": "max", "fn": lambda _, __, f1: f1},
+    }
+
+    metric_name = train_cfg.save_best_by
+
+    if metric_name not in metric_registry:
+        raise ValueError(f"Unknown save_best_by: {metric_name}")
+
+    metric_cfg = metric_registry[metric_name]
+    is_better  = (lambda a, b: a > b) if metric_cfg["mode"] == "max" else (lambda a, b: a < b)
+    best_metric = -float("inf") if metric_cfg["mode"] == "max" else float("inf")
+
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+    optimizer,
+    mode="max",
+    factor=0.5,
+    patience=2,
+    min_lr=1e-6
+    )  
+
+    history = []
+
+    early_stopper = EarlyStopping(
+    mode="max",
+    patience=5,
+    min_delta=1e-4
+    )
 
     for epoch in range(1, train_cfg.epochs + 1):
         model.train()
@@ -237,22 +294,25 @@ def main(cfg: DictConfig) -> None:
         total = 0
         
         for batch_idx, (images, targets) in enumerate(train_loader, start=1):
-            images = images.to(device)
-            targets = targets.to(device)
+            images = images.to(device, non_blocking=True)
+            targets = targets.to(device, non_blocking=True)
 
-            optimizer.zero_grad()
+            optimizer.zero_grad(set_to_none=True)
 
             if use_amp:
                 with torch.amp.autocast("cuda", dtype=amp_dtype):
                     outputs = model(images)
                     loss = criterion(outputs, targets)
                 scaler.scale(loss).backward()
+                scaler.unscale_(optimizer)
+                torch.nn.utils.clip_grad_norm_(params_to_optimize, max_norm=grad_clip_norm)
                 scaler.step(optimizer)
                 scaler.update()
             else:
                 outputs = model(images)
                 loss = criterion(outputs, targets)
                 loss.backward()
+                torch.nn.utils.clip_grad_norm_(params_to_optimize, max_norm=grad_clip_norm)
                 optimizer.step()
 
             running_loss += loss.item() * images.size(0)
@@ -273,39 +333,99 @@ def main(cfg: DictConfig) -> None:
         train_loss = running_loss / total if total > 0 else 0.0
         train_acc = correct / total if total > 0 else 0.0
         
-        # -------------------------------------------------
-        # Validation
-        # -------------------------------------------------
-        val_loss, val_acc = evaluate(model, val_loader, criterion, device)
+# -------------------------------------------------
+# Validation
+# -------------------------------------------------
+        val_loss, val_acc, val_macro_f1 = evaluate(model, val_loader, criterion, device)
 
-        # ---- epoch summary log (NOW variables exist)
-        logger.info("Epoch [%d/%d] Train loss: %.4f, acc: %.4f | Val loss: %.4f, acc: %.4f",
-            epoch, train_cfg.epochs, train_loss, train_acc, val_loss, val_acc)
+        scheduler.step(val_macro_f1)
 
+        current_lr = optimizer.param_groups[0]["lr"]
+
+        logger.info(
+        "Epoch [%d/%d] Train loss: %.4f, acc: %.4f | Val loss: %.4f, acc: %.4f, macro_f1: %.4f | lr: %.8f",
+        epoch, train_cfg.epochs, train_loss, train_acc, val_loss, val_acc, val_macro_f1, current_lr
+        )
         print(
             f"Epoch [{epoch}/{train_cfg.epochs}] "
             f"Train loss: {train_loss:.4f}, acc: {train_acc:.4f} | "
-            f"Val loss: {val_loss:.4f}, acc: {val_acc:.4f}"
+            f"Val loss: {val_loss:.4f}, acc: {val_acc:.4f}, macro_f1: {val_macro_f1:.4f} | "
+            f"lr: {current_lr:.8f}"
         )
 
-        if metric_name == "val_acc":
-            current_metric = val_acc
-        elif metric_name == "val_loss":
-            current_metric = -val_loss
-        else:
-            raise ValueError(f"Unknown save_best_by: {metric_name}")
+# -------------------------------------------------
+# Checkpoint — best model
+# -------------------------------------------------
+        current_metric = metric_cfg["fn"](val_loss, val_acc, val_macro_f1)
 
-        if current_metric > best_metric:
+
+        if is_better(current_metric, best_metric):
             best_metric = current_metric
-            
-            torch.save(model.state_dict(), ckpt_path)
-            print(f"[BEST] Saved new best model to {ckpt_path} ({metric_name}={current_metric:.4f})")
+    
+        checkpoint = {
+            "model_state_dict": model.state_dict(),
+            "epoch": epoch,
+            "metric_name": metric_name,
+            "best_metric": best_metric,
+            "val_loss": val_loss,
+            "val_acc": val_acc,
+            "val_macro_f1": val_macro_f1,
+            "classes": classes,
+            "class_to_idx": getattr(train_loader.dataset, "class_to_idx", None),
+            "cfg": OmegaConf.to_container(cfg, resolve=True),
+        }
+    
+        torch.save(checkpoint, ckpt_path)
+    
+        print(
+            f"[BEST] Saved new best model to {ckpt_path} "
+            f"(epoch={epoch}, {metric_name}={current_metric:.4f})"
+        )
 
-    # -------------------------------------------------
-    # Final test evaluation
-    # -------------------------------------------------
-    test_loss, test_acc = evaluate(model, test_loader, criterion, device)
-    print(f"[TEST] loss: {test_loss:.4f}, acc: {test_acc:.4f}")
+        
+# -------------------------------------------------
+# History
+# -------------------------------------------------
+        history.append({
+            "epoch": epoch,
+            "train_loss": train_loss,
+            "train_acc": train_acc,
+            "val_loss": val_loss,
+            "val_acc": val_acc,
+            "val_macro_f1": val_macro_f1,
+            "lr": optimizer.param_groups[0]["lr"]
+        })
+        with open(history_path, "w", encoding="utf-8") as f:
+            json.dump(history, f, indent=2)
+
+# -------------------------------------------------
+# Early stopping
+# -------------------------------------------------
+        stop_training, improved = early_stopper.step(val_macro_f1)
+
+        if improved:
+            print(f"[EARLY STOPPING] Improvement detected on val_loss: {val_macro_f1:.4f}")
+        if stop_training:
+            print(f"[EARLY STOP] No improvement for {early_stopper.patience} epochs. Stopping.")
+            break
+
+
+# -------------------------------------------------
+# Final test evaluation
+# -------------------------------------------------
+
+
+    checkpoint = torch.load(ckpt_path, map_location=device)
+
+    if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
+        print("[LOAD BEST] epoch:", checkpoint.get("epoch"))
+        print("[LOAD BEST] metric:", checkpoint.get("metric_name"), checkpoint.get("best_metric"))
+        model.load_state_dict(checkpoint["model_state_dict"])
+    else:
+        model.load_state_dict(checkpoint)
+
+    test_loss, test_acc, test_macro_f1 = evaluate(model, test_loader, criterion, device)
+    print(f"[TEST] loss: {test_loss:.4f}, acc: {test_acc:.4f}, macro_f1: {test_macro_f1:.4f}")
 
 
 if __name__ == "__main__":

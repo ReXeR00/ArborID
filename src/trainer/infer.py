@@ -8,11 +8,12 @@ from pathlib import Path
 from typing import Any
 
 import torch
+import random
 from PIL import Image
 from omegaconf import OmegaConf, DictConfig
 
-from model import model_from_cfg
-from transforms import get_transforms
+from model.model import model_from_cfg
+from data.transforms import get_transforms
 
 
 # ----------------------------
@@ -219,22 +220,81 @@ class InferenceEngine:
 
         return preds
 
-    def predict_path(self, image_path: Path, topk: int = 3) -> list[Prediction]:
+    def predict_path(self, image_path: Path, topk: int = 3, patches: int = 0, seed: int | None = 0,) -> list[Prediction]:
         img = Image.open(image_path).convert("RGB")
+        if patches and patches > 1:
+            return self.predict_pil_patch_voting(img, topk=topk, patches=patches, seed=seed)
         return self.predict_pil(img, topk=topk) 
+    
+    def probs_form_tenesors_batch(self, batch: torch.Tensor) -> torch.Tensor:
+        with torch.interfernece_mode():
+            logits = slef.mode(batch)
+            probs = torch.softmax(logits, dim = 1)
+        return 
+    def predict_pil_patch_voting(
+            self,
+            img: Image.Image,
+            topk: int = 3,
+            patches: int= 20,
+            crop_size: int = 200,
+            seed: int | None = 0,
+    ) -> list[Prediction]:
+        if topk <1:
+            raise ValueError("topk must be >= 1")
+        if patches < 1:
+            raise ValueError("patches must be >= 1")
+        img = img.convert('RGB')
+        if seed is not None:
+            random.seed(seed)
+        w, h = img.size
+        if min(w,h) < crop_size:
+            scale = crop_size / float(min(w, h))
+            new_w = int(round(w * scale))
+            new_h = int(round(h * scale))
+            img = img.resize((new_w, new_h), resample=Image.BILINEAR)
+            w, h = img.size
+        crop_tensors = []
+        for _ in range(patches):
+            left = random.randint(0, max(0, w - crop_size))
+            top  = random.randint(0, max(0, h - crop_size))
+            crop = img.crop((left, top, left + crop_size, top + crop_size))
+
+            x = self.val_tfms(crop)  
+            crop_tensors.append(x)
+
+        batch = torch.stack(crop_tensors, dim=0).to(self.device)  # [P,3,H,W]
+
+        probs_batch = self._probs_from_tensor_batch(batch)  # [P,C] na CPU
+        probs = probs_batch.mean(dim=0)  # [C] uśrednienie po patchach
+
+        k = min(topk, probs.shape[0])
+        top_probs, top_idxs = torch.topk(probs, k=k)
+
+        preds: list[Prediction] = []
+        for p, idx in zip(top_probs.tolist(), top_idxs.tolist()):
+            label = self.idx_to_class[int(idx)]
+            preds.append(Prediction(label=label, prob=float(p)))
+        return preds
 
 
 # ----------------------------
 # CLI
 # ----------------------------
-def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser()
-    p.add_argument("--run_dir", type=str, required=True, help="Hydra run directory (outputs/YYYY-MM-DD/HH-MM-SS)")
-    p.add_argument("--image", type=str, required=True, help="Path to image file")
-    p.add_argument("--topk", type=int, default=3, help="Top-K predictions")
-    p.add_argument("--cpu", action="store_true", help="Force CPU inference")
-    return p.parse_args()
+def parse_args():
+    parser = argparse.ArgumentParser(description="Inference for ArborID")
 
+    parser.add_argument("--run_dir", type=Path, required=True, help="Run directory with checkpoint + artifacts")
+    parser.add_argument("--image", type=Path, required=True, help="Path to image")
+    parser.add_argument("--topk", type=int, default=5, help="Top-k predictions")
+    parser.add_argument("--cpu", action="store_true", help="Force CPU inference")
+
+    # PATCH VOTING
+    parser.add_argument("--patches", type=int, default=0,
+                        help="If >1, use random patch voting with this many crops.")
+    parser.add_argument("--seed", type=int, default=0,
+                        help="Seed for patch sampling")
+
+    return parser.parse_args()
 
 def main() -> None:
     args = parse_args()
@@ -249,7 +309,9 @@ def main() -> None:
 
     engine = InferenceEngine.from_run_dir(run_dir=run_dir, device=device)
 
-    preds = engine.predict_path(image_path, topk=args.topk)
+    preds = engine.predict_path(image_path, topk=args.topk, patches=args.patches, seed=args.seed)
+
+
 
     print(f"Image: {image_path}")
     for pr in preds:

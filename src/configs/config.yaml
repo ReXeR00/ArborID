@@ -1,7 +1,7 @@
 # configs/config.yaml
 defaults:
   - train: train
-  - data: data
+  - data: data_barknet
   - model: resnet50
   - optimizer: adamw
   - _self_

@@ -1,0 +1,8 @@
+# configs/train.yaml
+seed: 42
+epochs: 20
+amp_dtype: "fp16" 
+save_best_by: "val_macro_f1" 
+log_interval: 10
+grad_clip_norm: 1.0
+

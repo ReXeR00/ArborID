@@ -16,12 +16,8 @@ def model(num_classes: int, pretrained: bool, freeze_backbone: bool, dropout: fl
                 p.requires_grad = False
     in_feats = m.fc.in_features
     m.fc = nn.Sequential(
-        nn.Dropout(0.2),
-        nn.Linear(in_feats, 512),
-        nn.BatchNorm1d(512),
-        nn.ReLU(),
         nn.Dropout(dropout),
-        nn.Linear(512, 256),
+        nn.Linear(in_feats, 256),
         nn.BatchNorm1d(256),
         nn.ReLU(),
         nn.Linear(256, num_classes)
