@@ -1,18 +1,32 @@
 ArborID 🌲
 AI-powered Tree Bark Classification with Deep Learning
 
-ArborID is a Computer Vision project focused on recognizing tree species from bark images using Deep Learning and PyTorch.
-The goal of the project is to build a scalable and production-style Machine Learning pipeline capable of handling real-world forest data, domain shifts, and challenging image conditions.
+ArborID is a Computer Vision project focused on tree species recognition from bark images using Deep Learning and PyTorch.
 
-The project uses pretrained CNN architectures such as ResNet and applies modern training techniques including transfer learning, mixed precision training, weighted sampling, augmentation pipelines, and macro-F1 evaluation.
+The project was designed to simulate a real-world Machine Learning pipeline capable of handling:
 
+domain shift
+imbalanced datasets
+different camera devices
+challenging outdoor lighting conditions
+real forest environments
+
+ArborID uses pretrained Convolutional Neural Networks such as ResNet and combines them with modern Deep Learning techniques including:
+
+Transfer Learning
+Mixed Precision Training (AMP)
+Weighted Loss Functions
+Data Augmentation
+Macro-F1 evaluation
+Early Stopping
+Modular Training Pipelines
 🚀 Features
 🌳 Tree bark image classification
 🧠 Transfer Learning with ResNet architectures
 ⚡ Mixed Precision Training (AMP)
 📊 Macro-F1 and accuracy evaluation
 🎯 Weighted loss for imbalanced datasets
-🧪 Validation & inference pipeline
+🧪 Validation and inference pipeline
 🔥 Early stopping support
 🧰 Hydra configuration system
 📁 Modular project structure
@@ -28,7 +42,8 @@ Torchvision
 Hydra
 OmegaConf
 Machine Learning
-ResNet18 / ResNet50
+ResNet18
+ResNet50
 Transfer Learning
 Cross Entropy Loss
 AdamW
@@ -46,30 +61,44 @@ matplotlib
 ArborID/
 │
 ├── configs/
-│   ├── config.yaml
-│   ├── train.yaml
+│   ├── data_barknet.yaml
 │   ├── data.yaml
-│   └── model.yaml
-│
-├── data/
-│   ├── raw/
-│   ├── processed/
-│   ├── traindata/
-│   ├── testdata/
-│   └── cache/
+│   └── train.yaml
 │
 ├── src/
 │   ├── data/
-│   ├── trainer/
-│   ├── model/
+│   │   ├── testdata/
+│   │   ├── traindata/
+│   │   ├── data_barknet.py
+│   │   ├── loader.py
+│   │   ├── prep_data.py
+│   │   ├── schemas.py
+│   │   └── transforms.py
+│   │
 │   ├── evaluation/
-│   ├── visualization/
-│   └── utils/
+│   │   ├── eval_folder.py
+│   │   ├── evaluation.py
+│   │   └── visualization.py
+│   │
+│   ├── model/
+│   │   ├── __init__.py
+│   │   └── model.py
+│   │
+│   ├── trainer/
+│   │   ├── early_stopping.py
+│   │   ├── infer.py
+│   │   ├── train.py
+│   │   └── utils.py
+│   │
+│   ├── train.py
+│   ├── utils.py
+│   └── __init__.py
 │
+├── eval/
 ├── outputs/
-├── artifacts/
-├── logs/
-├── requirements.txt
+├── .gitattributes
+├── .gitignore
+├── LICENSE
 └── README.md
 🧠 How It Works
 
@@ -77,14 +106,14 @@ The model learns visual bark patterns such as:
 
 texture
 cracks
+bark geometry
 color distribution
-shape irregularities
 lighting behavior
-micro-patterns in bark surfaces
+micro-patterns on bark surfaces
 
-Instead of manually defining features, the neural network automatically learns mathematical representations from images.
+Instead of manually defining features, the neural network automatically learns mathematical representations from image data.
 
-The workflow looks like this:
+Pipeline overview:
 
 Image → CNN Backbone → Feature Extraction → Classification Head → Tree Species
 📊 Training Pipeline
@@ -109,7 +138,7 @@ RandomRotation
 Normalize
 ⚡ Mixed Precision Training
 
-ArborID supports Automatic Mixed Precision (AMP) to accelerate training on NVIDIA GPUs.
+ArborID supports Automatic Mixed Precision (AMP) for faster GPU training.
 
 Benefits:
 
@@ -125,85 +154,82 @@ with autocast():
     loss = criterion(outputs, labels)
 📈 Metrics
 
-The project focuses not only on accuracy but also on robust evaluation metrics:
+The project focuses on robust evaluation metrics instead of accuracy alone.
+
+Implemented metrics:
 
 Accuracy
 Macro F1 Score
 Top-K Accuracy
-Confusion Analysis
 Confidence Scores
+Confusion Analysis
 
-Macro-F1 is especially important because bark datasets are often highly imbalanced.
+Macro-F1 is especially important because bark datasets are highly imbalanced.
 
 🌍 Real-World Challenges
 
 Tree bark classification is difficult because of:
 
-changing weather
-lighting conditions
+weather conditions
 camera differences
-age of trees
+lighting changes
+tree age
 moss and damage
-domain shift between datasets
+dataset domain shift
 
-ArborID experiments with augmentation strategies and balancing methods to improve generalization.
+ArborID experiments with augmentation strategies and balancing methods to improve generalization on unseen data.
 
 🧪 Dataset
 
 The project currently experiments with:
 
-custom bark datasets
 BarkNet dataset
+custom bark datasets
 manually filtered bark images
 class-balanced subsets
 
-Dataset structure:
+Current dataset structure:
 
-dataset/
-├── train/
-│   ├── oak/
-│   ├── pine/
-│   └── birch/
-│
-├── validate/
-└── test/
+src/data/
+├── traindata/
+├── testdata/
 🚀 Running Training
 Install dependencies
 pip install -r requirements.txt
 Start training
 python src/train.py
 Hydra override example
-python src/train.py model=resnet50 optimizer=adamw
+python src/train.py optimizer=adamw
 🧪 Evaluation
 
 Run evaluation on folders:
 
 python src/evaluation/eval_folder.py \
     --run_dir outputs/2026-01-01/12-00-00 \
-    --data_dir data/testdata \
+    --data_dir src/data/testdata \
     --patches 20
 📌 Current Goals
 improve domain generalization
 reduce dataset bias
-test larger architectures
 optimize inference pipeline
+test larger architectures
 add explainability methods (Grad-CAM)
-deploy API model service
 experiment with Vision Transformers
+deploy model APIs
 🔮 Future Plans
 🌐 Web application
 📱 Mobile bark scanner
 ☁️ Cloud deployment
 📡 Drone integration
 🛰️ Forest monitoring systems
-🤖 Active Learning pipeline
+🤖 Active Learning pipelines
 🎯 Real-time classification
 📷 Example Use Cases
 forestry automation
 biodiversity monitoring
 ecological research
-educational tools
-environmental AI systems
+educational AI tools
+environmental monitoring
 autonomous forest scanning
 🤝 Contributing
 
@@ -218,8 +244,8 @@ git push
 MIT License
 
 👨‍💻 Author
-
 Emil Nowak
+
 Machine Learning Engineer focused on:
 
 Computer Vision
