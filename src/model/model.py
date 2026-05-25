@@ -1,7 +1,5 @@
 from torch import nn
-from torchvision.models import resnet50, ResNet50_Weights
-
-
+from torchvision.models import ResNet50_Weights, resnet50
 
 def model(num_classes: int, pretrained: bool, freeze_backbone: bool, dropout: float):
 
@@ -22,9 +20,17 @@ def model(num_classes: int, pretrained: bool, freeze_backbone: bool, dropout: fl
         nn.ReLU(),
         nn.Linear(256, num_classes)
     )
-    return m 
+    return m
 
-def model_from_cfg(cfg_model, num_classes: int):
+
+def freeze_backbone_batchnorm_stats(model: nn.Module) -> None:
+    for name, module in model.named_modules():
+        if name.startswith("fc."):
+            continue
+        if isinstance(module, nn.modules.batchnorm._BatchNorm):
+            module.eval()
+
+def model_from_cfg(cfg_model, num_classes: int, input_size: int = 224):
     name = cfg_model.name.lower()
     if name == "resnet50":
         return model(
@@ -36,7 +42,7 @@ def model_from_cfg(cfg_model, num_classes: int):
     elif name == "mlp":
         return nn.Sequential(
             nn.Flatten(),
-            nn.Linear(3 * 224 * 224, int(cfg_model.hidden_dim)),
+            nn.Linear(3 * input_size * input_size, int(cfg_model.hidden_dim)),
             nn.ReLU(inplace=True),
             nn.Dropout(float(cfg_model.dropout)),
             nn.Linear(int(cfg_model.hidden_dim), num_classes),

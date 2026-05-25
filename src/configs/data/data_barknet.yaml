@@ -10,3 +10,4 @@ val_size: 0.15
 test_size: 0.15
 seed: 42
 use_weighted_sampler: true
+use_class_weights: false

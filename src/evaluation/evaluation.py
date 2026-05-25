@@ -10,6 +10,7 @@ def evaluate(
     loader: DataLoader,
     criterion: nn.Module,
     device: torch.device,
+    num_classes: int | None = None,
 ) -> Tuple[float, float, float]:
 
     model.eval()
@@ -21,10 +22,14 @@ def evaluate(
     all_preds = []
 
     
+    inferred_num_classes = num_classes
+
     for images, targets in loader:
         images = images.to(device, non_blocking=True)
         targets = targets.to(device, non_blocking=True)
         outputs = model(images)
+        if inferred_num_classes is None:
+            inferred_num_classes = int(outputs.shape[1])
         loss = criterion(outputs, targets)
         running_loss += loss.item() * images.size(0)
         _, preds = outputs.max(1)
@@ -36,6 +41,16 @@ def evaluate(
     
     avg_loss = running_loss / total if total > 0 else 0.0
     acc = correct / total if total > 0 else 0.0
-    val_macro_f1 = f1_score(all_targets, all_preds, average="macro") if total > 0 else 0.0
+    if total > 0 and inferred_num_classes is not None:
+        labels = list(range(inferred_num_classes))
+        val_macro_f1 = f1_score(
+            all_targets,
+            all_preds,
+            labels=labels,
+            average="macro",
+            zero_division=0,
+        )
+    else:
+        val_macro_f1 = 0.0
 
     return avg_loss, acc, val_macro_f1

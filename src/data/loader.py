@@ -134,6 +134,7 @@ def get_loader(
     batch_size: int = 32,
     num_workers: int = 0,
     pin_memory: bool = True,
+    img_size: int = 224,
     max_images_per_class: int | None = None,
     val_size: float = 0.15,
     test_size: float = 0.15,
@@ -151,7 +152,7 @@ def get_loader(
             "Check cfg.data.root in your Hydra config."
         )
 
-    train_tfms, val_tfms = get_transforms(model_name=model_name)
+    train_tfms, val_tfms = get_transforms(model_name=model_name, img_size=img_size)
 
     if (root / "train").is_dir() and (root / "validate").is_dir() and (root / "test").is_dir():
         train_ds, val_ds, test_ds, classes = _prepare_presplit_dataset(

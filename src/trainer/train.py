@@ -4,6 +4,10 @@ from pathlib import Path
 import hashlib
 import sys
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 from omegaconf import DictConfig, OmegaConf
 import hydra
 from hydra.utils import get_original_cwd
@@ -12,9 +16,10 @@ import torch
 import torch.nn as nn
 from collections import Counter
 
-from src.data.loader import get_loader   
-from src.model.model import model_from_cfg     
-from src.evaluation.evaluation import evaluate   
+from src.checkpoints import load_checkpoint
+from src.data.loader import get_loader
+from src.evaluation.evaluation import evaluate
+from src.model.model import freeze_backbone_batchnorm_stats, model_from_cfg
 
 from src.trainer.utils import set_seed, setup_amp
 from src.trainer.early_stopping import EarlyStopping
@@ -23,10 +28,6 @@ from src.trainer.early_stopping import EarlyStopping
 import logging
 logger = logging.getLogger(__name__)
 from hydra.core.hydra_config import HydraConfig
-
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
 
 
 
@@ -54,6 +55,8 @@ def main(cfg: DictConfig) -> None:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
     grad_clip_norm = float(getattr(train_cfg, "grad_clip_norm", 1.0))
+    debug_data_checks = bool(getattr(train_cfg, "debug_data_checks", False))
+    hash_data_checks = bool(getattr(train_cfg, "hash_data_checks", False))
 
 # -------------------------------------------------
 # Data
@@ -78,6 +81,7 @@ def main(cfg: DictConfig) -> None:
     batch_size=data_cfg.batch_size,
     num_workers=data_cfg.num_workers,
     pin_memory=data_cfg.pin_memory and torch.cuda.is_available(),
+    img_size=int(getattr(data_cfg, "img_size", 224)),
     max_images_per_class=max_images_per_class,
     val_size=data_cfg.val_size,
     test_size=data_cfg.test_size,
@@ -114,19 +118,6 @@ def main(cfg: DictConfig) -> None:
     print("[DEBUG] train transforms:", getattr(train_loader.dataset, "transform", None))
     print("[DEBUG] val transforms:", getattr(val_loader.dataset, "transform", None))
 
-
-    # Print a few sample file paths from each split
-    def _print_samples(loader, split_name, n=5):
-        samples = loader.dataset.samples  
-        print(f"[SANITY] {split_name} sample paths (first {min(n, len(samples))}):")
-        for i in range(min(n, len(samples))):
-            p, y = samples[i]
-            print(f"  - {p} (class_idx={y})")
-
-    _print_samples(train_loader, "TRAIN", n=5)
-    _print_samples(val_loader,   "VAL",   n=5)
-    _print_samples(test_loader,  "TEST",  n=5)
-
     # Check for exact path overlap between splits
     train_paths = {str(p) for p, _ in train_loader.dataset.samples}
     val_paths   = {str(p) for p, _ in val_loader.dataset.samples}
@@ -148,58 +139,68 @@ def main(cfg: DictConfig) -> None:
         for i, p in enumerate(list(s)[:n]):
             print(f"  - {p}")
 
-    _print_overlap("train&val", overlap_train_val)
-    _print_overlap("train&test", overlap_train_test)
-    _print_overlap("val&test", overlap_val_test)
-    
-    
+    if debug_data_checks:
+        def _print_samples(loader, split_name, n=5):
+            samples = loader.dataset.samples
+            print(f"[SANITY] {split_name} sample paths (first {min(n, len(samples))}):")
+            for i in range(min(n, len(samples))):
+                p, y = samples[i]
+                print(f"  - {p} (class_idx={y})")
 
-    def file_md5(path: str, chunk_size: int = 1024 * 1024) -> str:
-        h = hashlib.md5()
-        with open(path, "rb") as f:
-            while True:
-                chunk = f.read(chunk_size)
-                if not chunk:
-                    break
-                h.update(chunk)
-        return h.hexdigest()
+        _print_samples(train_loader, "TRAIN", n=5)
+        _print_samples(val_loader,   "VAL",   n=5)
+        _print_samples(test_loader,  "TEST",  n=5)
 
-    def build_hash_map(samples):
-        
-        m = {}
-        for p, y in samples:
-            hp = file_md5(p)
-            m.setdefault(hp, []).append((p, y))
-        return m
+        _print_overlap("train&val", overlap_train_val)
+        _print_overlap("train&test", overlap_train_test)
+        _print_overlap("val&test", overlap_val_test)
 
-    train_hashes = build_hash_map(train_loader.dataset.samples)
-    val_hashes   = build_hash_map(val_loader.dataset.samples)
-    test_hashes  = build_hash_map(test_loader.dataset.samples)
+    if hash_data_checks:
+        def file_md5(path: str, chunk_size: int = 1024 * 1024) -> str:
+            h = hashlib.md5()
+            with open(path, "rb") as f:
+                while True:
+                    chunk = f.read(chunk_size)
+                    if not chunk:
+                        break
+                    h.update(chunk)
+            return h.hexdigest()
 
-    train_set = set(train_hashes.keys())
-    val_set   = set(val_hashes.keys())
-    test_set  = set(test_hashes.keys())
+        def build_hash_map(samples):
+            m = {}
+            for p, y in samples:
+                hp = file_md5(p)
+                m.setdefault(hp, []).append((p, y))
+            return m
 
-    h_overlap_train_val  = train_set & val_set
-    h_overlap_train_test = train_set & test_set
-    h_overlap_val_test   = val_set & test_set
+        train_hashes = build_hash_map(train_loader.dataset.samples)
+        val_hashes   = build_hash_map(val_loader.dataset.samples)
+        test_hashes  = build_hash_map(test_loader.dataset.samples)
 
-    print(f"[SANITY] Hash overlap train&val:  {len(h_overlap_train_val)}")
-    print(f"[SANITY] Hash overlap train&test: {len(h_overlap_train_test)}")
-    print(f"[SANITY] Hash overlap val&test:   {len(h_overlap_val_test)}")
+        train_set = set(train_hashes.keys())
+        val_set   = set(val_hashes.keys())
+        test_set  = set(test_hashes.keys())
 
-    def _print_hash_overlap(name, overlap_hashes, hm_a, hm_b, n=3):
-        if len(overlap_hashes) == 0:
-            return
-        print(f"[SANITY][WARNING] {name} hash overlap examples:")
-        for h in list(overlap_hashes)[:n]:
-            print(f"  hash={h}")
-            print("   A:", hm_a[h][0])
-            print("   B:", hm_b[h][0])
+        h_overlap_train_val  = train_set & val_set
+        h_overlap_train_test = train_set & test_set
+        h_overlap_val_test   = val_set & test_set
 
-    _print_hash_overlap("train&val", h_overlap_train_val, train_hashes, val_hashes)
-    _print_hash_overlap("train&test", h_overlap_train_test, train_hashes, test_hashes)
-    _print_hash_overlap("val&test", h_overlap_val_test, val_hashes, test_hashes)
+        print(f"[SANITY] Hash overlap train&val:  {len(h_overlap_train_val)}")
+        print(f"[SANITY] Hash overlap train&test: {len(h_overlap_train_test)}")
+        print(f"[SANITY] Hash overlap val&test:   {len(h_overlap_val_test)}")
+
+        def _print_hash_overlap(name, overlap_hashes, hm_a, hm_b, n=3):
+            if len(overlap_hashes) == 0:
+                return
+            print(f"[SANITY][WARNING] {name} hash overlap examples:")
+            for h in list(overlap_hashes)[:n]:
+                print(f"  hash={h}")
+                print("   A:", hm_a[h][0])
+                print("   B:", hm_b[h][0])
+
+        _print_hash_overlap("train&val", h_overlap_train_val, train_hashes, val_hashes)
+        _print_hash_overlap("train&test", h_overlap_train_test, train_hashes, test_hashes)
+        _print_hash_overlap("val&test", h_overlap_val_test, val_hashes, test_hashes)
 
     
 
@@ -207,7 +208,11 @@ def main(cfg: DictConfig) -> None:
 # -------------------------------------------------
 # Model
 # -------------------------------------------------
-    model = model_from_cfg(cfg.model, num_classes=num_classes)
+    model = model_from_cfg(
+        cfg.model,
+        num_classes=num_classes,
+        input_size=int(getattr(data_cfg, "img_size", 224)),
+    )
     model.to(device)
     print(f"Model:\n{model}")
     trainable = [(n, p.numel()) for n,p in model.named_parameters() if p.requires_grad]
@@ -227,7 +232,8 @@ def main(cfg: DictConfig) -> None:
     ).to(device)
     weights = weights / weights.sum() * num_classes
 
-    criterion = nn.CrossEntropyLoss()
+    use_class_weights = bool(getattr(data_cfg, "use_class_weights", False))
+    criterion = nn.CrossEntropyLoss(weight=weights if use_class_weights else None)
 
     opt_name = str(getattr(optim_cfg, "name", "adamw")).lower()
     lr = float(getattr(optim_cfg, "lr", 3e-4))
@@ -271,24 +277,29 @@ def main(cfg: DictConfig) -> None:
     is_better  = (lambda a, b: a > b) if metric_cfg["mode"] == "max" else (lambda a, b: a < b)
     best_metric = -float("inf") if metric_cfg["mode"] == "max" else float("inf")
 
+    monitor_mode = metric_cfg["mode"]
+    scheduler_cfg = getattr(train_cfg, "scheduler", {})
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-    optimizer,
-    mode="max",
-    factor=0.5,
-    patience=2,
-    min_lr=1e-6
-    )  
+        optimizer,
+        mode=monitor_mode,
+        factor=float(getattr(scheduler_cfg, "factor", 0.5)),
+        patience=int(getattr(scheduler_cfg, "patience", 2)),
+        min_lr=float(getattr(scheduler_cfg, "min_lr", 1e-6)),
+    )
 
     history = []
 
+    early_stopping_cfg = getattr(train_cfg, "early_stopping", {})
     early_stopper = EarlyStopping(
-    mode="max",
-    patience=5,
-    min_delta=1e-4
+        mode=monitor_mode,
+        patience=int(getattr(early_stopping_cfg, "patience", 5)),
+        min_delta=float(getattr(early_stopping_cfg, "min_delta", 1e-4)),
     )
 
     for epoch in range(1, train_cfg.epochs + 1):
         model.train()
+        if bool(getattr(cfg.model, "freeze_backbone", False)):
+            freeze_backbone_batchnorm_stats(model)
         running_loss = 0.0
         correct = 0
         total = 0
@@ -336,9 +347,16 @@ def main(cfg: DictConfig) -> None:
 # -------------------------------------------------
 # Validation
 # -------------------------------------------------
-        val_loss, val_acc, val_macro_f1 = evaluate(model, val_loader, criterion, device)
+        val_loss, val_acc, val_macro_f1 = evaluate(
+            model,
+            val_loader,
+            criterion,
+            device,
+            num_classes=num_classes,
+        )
 
-        scheduler.step(val_macro_f1)
+        current_metric = metric_cfg["fn"](val_loss, val_acc, val_macro_f1)
+        scheduler.step(current_metric)
 
         current_lr = optimizer.param_groups[0]["lr"]
 
@@ -356,31 +374,27 @@ def main(cfg: DictConfig) -> None:
 # -------------------------------------------------
 # Checkpoint — best model
 # -------------------------------------------------
-        current_metric = metric_cfg["fn"](val_loss, val_acc, val_macro_f1)
-
-
         if is_better(current_metric, best_metric):
             best_metric = current_metric
-    
-        checkpoint = {
-            "model_state_dict": model.state_dict(),
-            "epoch": epoch,
-            "metric_name": metric_name,
-            "best_metric": best_metric,
-            "val_loss": val_loss,
-            "val_acc": val_acc,
-            "val_macro_f1": val_macro_f1,
-            "classes": classes,
-            "class_to_idx": getattr(train_loader.dataset, "class_to_idx", None),
-            "cfg": OmegaConf.to_container(cfg, resolve=True),
-        }
-    
-        torch.save(checkpoint, ckpt_path)
-    
-        print(
-            f"[BEST] Saved new best model to {ckpt_path} "
-            f"(epoch={epoch}, {metric_name}={current_metric:.4f})"
-        )
+            checkpoint = {
+                "model_state_dict": model.state_dict(),
+                "epoch": epoch,
+                "metric_name": metric_name,
+                "best_metric": best_metric,
+                "val_loss": val_loss,
+                "val_acc": val_acc,
+                "val_macro_f1": val_macro_f1,
+                "classes": classes,
+                "class_to_idx": getattr(train_loader.dataset, "class_to_idx", None),
+                "cfg": OmegaConf.to_container(cfg, resolve=True),
+            }
+
+            torch.save(checkpoint, ckpt_path)
+
+            print(
+                f"[BEST] Saved new best model to {ckpt_path} "
+                f"(epoch={epoch}, {metric_name}={current_metric:.4f})"
+            )
 
         
 # -------------------------------------------------
@@ -401,10 +415,10 @@ def main(cfg: DictConfig) -> None:
 # -------------------------------------------------
 # Early stopping
 # -------------------------------------------------
-        stop_training, improved = early_stopper.step(val_macro_f1)
+        stop_training, improved = early_stopper.step(current_metric)
 
         if improved:
-            print(f"[EARLY STOPPING] Improvement detected on val_loss: {val_macro_f1:.4f}")
+            print(f"[EARLY STOPPING] Improvement detected on {metric_name}: {current_metric:.4f}")
         if stop_training:
             print(f"[EARLY STOP] No improvement for {early_stopper.patience} epochs. Stopping.")
             break
@@ -415,16 +429,18 @@ def main(cfg: DictConfig) -> None:
 # -------------------------------------------------
 
 
-    checkpoint = torch.load(ckpt_path, map_location=device)
+    checkpoint = load_checkpoint(ckpt_path, device=device)
+    print("[LOAD BEST] epoch:", checkpoint.get("epoch"))
+    print("[LOAD BEST] metric:", checkpoint.get("metric_name"), checkpoint.get("best_metric"))
+    model.load_state_dict(checkpoint["model_state_dict"])
 
-    if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
-        print("[LOAD BEST] epoch:", checkpoint.get("epoch"))
-        print("[LOAD BEST] metric:", checkpoint.get("metric_name"), checkpoint.get("best_metric"))
-        model.load_state_dict(checkpoint["model_state_dict"])
-    else:
-        model.load_state_dict(checkpoint)
-
-    test_loss, test_acc, test_macro_f1 = evaluate(model, test_loader, criterion, device)
+    test_loss, test_acc, test_macro_f1 = evaluate(
+        model,
+        test_loader,
+        criterion,
+        device,
+        num_classes=num_classes,
+    )
     print(f"[TEST] loss: {test_loss:.4f}, acc: {test_acc:.4f}, macro_f1: {test_macro_f1:.4f}")
 
 

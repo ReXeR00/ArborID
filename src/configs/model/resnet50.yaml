@@ -1,4 +1,4 @@
-# configs/model/resnet18.yaml
+# configs/model/resnet50.yaml
 name: resnet50
 pretrained: true
 freeze_backbone: false

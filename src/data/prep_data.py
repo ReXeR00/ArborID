@@ -162,12 +162,37 @@ def split_records(
         rng.shuffle(tree_ids)
 
         total = len(tree_ids)
-        test_count = max(1, int(total * test_size))
-        val_count = max(1, int(total * val_size))
+        if total == 1:
+            train_trees = tree_ids
+            val_trees = []
+            test_trees = []
+        else:
+            test_count = int(round(total * test_size))
+            val_count = int(round(total * val_size))
 
-        test_trees  = tree_ids[:test_count]
-        val_trees   = tree_ids[test_count:test_count + val_count]
-        train_trees = tree_ids[test_count + val_count:]
+            if total >= 3 and test_size > 0:
+                test_count = max(1, test_count)
+            if total >= 4 and val_size > 0:
+                val_count = max(1, val_count)
+
+            test_count = min(test_count, total - 1)
+            val_count = min(val_count, total - test_count - 1)
+
+            if test_count < 0:
+                test_count = 0
+            if val_count < 0:
+                val_count = 0
+
+            train_trees = tree_ids[test_count + val_count:]
+            if not train_trees:
+                if val_count >= test_count and val_count > 0:
+                    val_count -= 1
+                elif test_count > 0:
+                    test_count -= 1
+                train_trees = tree_ids[test_count + val_count:]
+
+            test_trees = tree_ids[:test_count]
+            val_trees = tree_ids[test_count:test_count + val_count]
 
         for tid in train_trees:
             train_records.extend(trees[tid])
@@ -228,7 +253,8 @@ class BarkNetDataset(Dataset):
 
     def __getitem__(self, idx: int):
         img_path, target = self.samples[idx]
-        image = Image.open(img_path).convert("RGB")
+        with Image.open(img_path) as image_file:
+            image = image_file.convert("RGB")
 
         if self.transform is not None:
             image = self.transform(image)
