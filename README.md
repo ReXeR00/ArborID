@@ -5,31 +5,32 @@ Explainable tree bark classification with PyTorch, ResNet and Grad-CAM.
 ArborID is a Computer Vision project for classifying tree species from bark images.
 It combines a PyTorch training pipeline, ResNet-based image classification, folder-based evaluation, multi-patch inference, confidence analysis and Grad-CAM visual explanations.
 
-The current version is evaluated on a 5-class subset of the BarkNet dataset.
+The current version is evaluated on BarkNet 1.0 with a 23-class bark species classification setup.
 
 ## Latest Verified Result
 
 | Metric | Result |
 |---|---:|
-| Top-1 Accuracy | 87.70% |
-| Top-3 Accuracy | 99.18% |
-| Number of classes | 5 |
-| Evaluation split | `src/data/testdata` |
-| Model checkpoint | `best_model.pt` |
+| Test Top-1 Accuracy | 96.56% |
+| Test Top-3 Accuracy | 99.66% |
+| Validation Top-1 Accuracy | 96.77% |
+| Validation Top-3 Accuracy | 99.49% |
+| Uncertain rate below 0.45 confidence | 0.21% |
+| Number of classes | 23 |
+| Test images | 2,355 |
+| Patch voting | off |
+| Best validation checkpoint | epoch 17 |
+| Checkpoint selection | validation macro F1 |
+| Evaluation split | `src/data/test` |
+| Model checkpoint | `outputs/2026-05-30/12-27-19/best_model.pt` |
 
-Current class mapping:
+Important limitation:
 
-```json
-{
-  "chr": 0,
-  "epb": 1,
-  "epn": 2,
-  "epo": 3,
-  "epr": 4
-}
-```
+- the current split is image-level, not tree-level or capture-session-level
+- the result should be described as held-out image-level test performance
+- it should not yet be interpreted as full generalization to completely unseen trees
 
-These results come from the current 5-class setup. The next major research step is to test whether the same pipeline generalizes to the full BarkNet dataset with more visually similar tree species.
+The class mapping for each run is stored in `artifacts/class_to_idx.json`.
 
 ## Features
 
@@ -130,7 +131,7 @@ Evaluate a trained model on a folder with class subdirectories:
 ```bash
 python src/evaluation/eval_folder.py \
   --run_dir outputs/YYYY-MM-DD/HH-MM-SS \
-  --data_dir src/data/testdata \
+  --data_dir src/data/test \
   --patches 1 \
   --crop_size 224 \
   --topk 3
@@ -159,7 +160,7 @@ Patch voting can improve robustness by averaging predictions across random crops
 ```bash
 python src/evaluation/eval_folder.py \
   --run_dir outputs/YYYY-MM-DD/HH-MM-SS \
-  --data_dir src/data/testdata \
+  --data_dir src/data/test \
   --patches 20 \
   --crop_size 224 \
   --topk 3
@@ -176,7 +177,7 @@ Run evaluation and open the viewer afterward:
 ```bash
 python src/evaluation/eval_folder.py \
   --run_dir outputs/YYYY-MM-DD/HH-MM-SS \
-  --data_dir src/data/testdata \
+  --data_dir src/data/test \
   --patches 1 \
   --crop_size 224 \
   --topk 3 \
@@ -189,7 +190,7 @@ Show only wrong predictions:
 ```bash
 python src/evaluation/eval_folder.py \
   --run_dir outputs/YYYY-MM-DD/HH-MM-SS \
-  --data_dir src/data/testdata \
+  --data_dir src/data/test \
   --patches 1 \
   --crop_size 224 \
   --topk 3 \
@@ -259,7 +260,7 @@ Run inference on one image:
 ```bash
 python src/trainer/infer.py \
   --run_dir outputs/YYYY-MM-DD/HH-MM-SS \
-  --image src/data/testdata/CHR/example.jpg
+  --image src/data/test/CHR/example.jpg
 ```
 
 Force CPU inference:
@@ -267,7 +268,7 @@ Force CPU inference:
 ```bash
 python src/trainer/infer.py \
   --run_dir outputs/YYYY-MM-DD/HH-MM-SS \
-  --image src/data/testdata/CHR/example.jpg \
+  --image src/data/test/CHR/example.jpg \
   --cpu
 ```
 
@@ -276,63 +277,50 @@ Use patch voting for a single image:
 ```bash
 python src/trainer/infer.py \
   --run_dir outputs/YYYY-MM-DD/HH-MM-SS \
-  --image src/data/testdata/CHR/example.jpg \
+  --image src/data/test/CHR/example.jpg \
   --patches 20 \
   --crop_size 224
 ```
 
 ## Dataset
 
-The current project uses a 5-class BarkNet subset.
+The current project uses BarkNet 1.0 for bark species classification across 23 tree species.
 
-Expected class folders:
+Current dataset workflow:
 
-```text
-CHR
-EPB
-EPN
-EPO
-EPR
-```
+- raw source images are stored in `src/data/rawdata`
+- ArborID prepares `train`, `validation` and `test` folders automatically
+- evaluation is typically run on `src/data/test`
+
+Current split note:
+
+- the split is image-level
+- it is not yet tree-level or capture-session-level
+- README and reported metrics should therefore describe the benchmark as a held-out image-level test split
 
 The project supports two dataset layouts.
 
 Pre-split layout:
 
 ```text
-data/
+src/data/
 |-- train/
-|   |-- CHR/
-|   |-- EPB/
-|   |-- EPN/
-|   |-- EPO/
-|   `-- EPR/
-|-- validate/
-|   |-- CHR/
-|   |-- EPB/
-|   |-- EPN/
-|   |-- EPO/
-|   `-- EPR/
+|-- validation/
 `-- test/
-    |-- CHR/
-    |-- EPB/
-    |-- EPN/
-    |-- EPO/
-    `-- EPR/
 ```
 
 Single-root layout:
 
 ```text
-data/
+src/data/rawdata/
+|-- BOJ/
+|-- BOP/
 |-- CHR/
-|-- EPB/
-|-- EPN/
-|-- EPO/
-`-- EPR/
+|-- ...
+`-- THO/
 ```
 
-In the single-root layout, ArborID creates train, validation and test splits internally.
+In the rawdata layout, ArborID creates train, validation and test splits internally.
 
 ## Model
 
@@ -404,8 +392,9 @@ This makes it easier to compare experiments and debug model behavior.
 
 Completed:
 
-- 5-class BarkNet classification pipeline
+- 23-class BarkNet 1.0 classification pipeline
 - training pipeline
+- automatic rawdata -> train/validation/test split preparation
 - inference script
 - folder evaluation
 - shared checkpoint loading
@@ -414,10 +403,15 @@ Completed:
 - optional weighted loss
 - Grad-CAM viewer
 - CSV result export
+- per-class metrics
+- confusion matrix reporting
+- uncertainty-rate reporting
+- validation-based best checkpoint selection
+- held-out image-level test evaluation
 
 Planned:
 
-- full BarkNet training
+- tree-level / capture-session-level split evaluation
 - architecture comparison
 - stronger augmentation experiments
 - confusion matrix visualization
