@@ -1,0 +1,21 @@
+path,true_label,pred_label,pred_prob,uncertain,topk_labels,topk_probs
+data\external1\linden\lindenNet0.jpg,linden,chestnut,0.765653,0,chestnut|linden|alder,0.765653|0.109634|0.042062
+data\external1\linden\lindenNet1.jpg,linden,chestnut,0.307209,1,chestnut|birch|oak,0.307209|0.215725|0.166839
+data\external1\linden\lindenNet2.jpg,linden,alder,0.284401,1,alder|linden|horse chestnut,0.284401|0.212433|0.098844
+data\external1\linden\lindenNet3.jpg,linden,pine,0.387611,1,pine|alder|birch,0.387611|0.159283|0.117572
+data\external1\linden\lindenNet4.jpg,linden,chestnut,0.259246,1,chestnut|pine|linden,0.259246|0.131014|0.107562
+data\external1\linden\lindenNet5.jpg,linden,spruce,0.189755,1,spruce|linden|ginkgo biloba,0.189755|0.136656|0.132707
+data\external1\linden\lindenNet6.jpg,linden,ginkgo biloba,0.269031,1,ginkgo biloba|birch|oriental plane,0.269031|0.151922|0.141637
+data\external1\linden\lindenNet7.jpg,linden,alder,0.192975,1,alder|pine|birch,0.192975|0.159940|0.121358
+data\external1\linden\lindenNet8.jpg,linden,pine,0.221819,1,pine|birch|ginkgo biloba,0.221819|0.163468|0.110895
+data\external1\linden\lindenNet9.jpg,linden,oak,0.255171,1,oak|linden|alder,0.255171|0.244507|0.124502
+data\external1\oak\oakNet0.jpg,oak,linden,0.574146,0,linden|chestnut|alder,0.574146|0.091644|0.065894
+data\external1\oak\oakNet1.jpg,oak,ginkgo biloba,0.338875,1,ginkgo biloba|pine|linden,0.338875|0.101734|0.101576
+data\external1\oak\oakNet2.jpg,oak,birch,0.274341,1,birch|linden|alder,0.274341|0.208793|0.116458
+data\external1\oak\oakNet3.jpg,oak,spruce,0.368927,1,spruce|alder|birch,0.368927|0.162808|0.114076
+data\external1\oak\oakNet4.jpg,oak,birch,0.651355,0,birch|alder|pine,0.651355|0.091010|0.041200
+data\external1\oak\oakNet5.jpg,oak,linden,0.852832,0,linden|alder|chestnut,0.852832|0.070832|0.015827
+data\external1\oak\oakNet6.jpg,oak,pine,0.363156,1,pine|linden|oak,0.363156|0.229061|0.114970
+data\external1\oak\oakNet7.jpg,oak,linden,0.713149,0,linden|chestnut|oak,0.713149|0.139567|0.030519
+data\external1\oak\oakNet8.jpg,oak,birch,0.337037,1,birch|linden|oriental plane,0.337037|0.133795|0.104953
+data\external1\oak\oakNet9.jpg,oak,pine,0.184006,1,pine|oriental plane|birch,0.184006|0.165598|0.155932

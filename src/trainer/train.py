@@ -64,7 +64,10 @@ def main(cfg: DictConfig) -> None:
     
 
     project_root = Path(get_original_cwd())
-    data_root = project_root / data_cfg.root
+    raw_dir = project_root / getattr(data_cfg, "raw_dir", getattr(data_cfg, "root", "src/data/rawdata"))
+    train_dir = project_root / getattr(data_cfg, "train_dir", "src/data/train")
+    val_dir = project_root / getattr(data_cfg, "val_dir", "src/data/validation")
+    test_dir = project_root / getattr(data_cfg, "test_dir", "src/data/test")
 
 
 
@@ -76,15 +79,22 @@ def main(cfg: DictConfig) -> None:
     max_images_per_class = getattr(data_cfg, "max_images_per_class", None)
 
     train_loader, val_loader, test_loader, classes = get_loader(
-    root=data_root,
+    raw_dir=raw_dir,
+    train_dir=train_dir,
+    val_dir=val_dir,
+    test_dir=test_dir,
     artifacts_dir=artifacts_dir,
     batch_size=data_cfg.batch_size,
     num_workers=data_cfg.num_workers,
     pin_memory=data_cfg.pin_memory and torch.cuda.is_available(),
     img_size=int(getattr(data_cfg, "img_size", 224)),
+    train_ratio=float(getattr(data_cfg, "train_ratio", 0.85)),
+    val_ratio=float(getattr(data_cfg, "val_ratio", 0.05)),
     max_images_per_class=max_images_per_class,
-    val_size=data_cfg.val_size,
-    test_size=data_cfg.test_size,
+    test_ratio=float(getattr(data_cfg, "test_ratio", 0.10)),
+    split_if_missing=bool(getattr(data_cfg, "split_if_missing", True)),
+    copy_files=bool(getattr(data_cfg, "copy_files", True)),
+    force_resplit=bool(getattr(data_cfg, "force_resplit", False)),
     seed=data_cfg.seed,
     model_name=cfg.model.name,
     use_weighted_sampler=getattr(data_cfg, "use_weighted_sampler", False),

@@ -1,0 +1,41 @@
+path,true_label,pred_label,pred_prob,uncertain,topk_labels,topk_probs
+data\external\beech\beechNet0.jpg,beech,beech,0.236896,1,beech|hornbeam|spruce,0.236896|0.198001|0.096300
+data\external\beech\beechNet1.jpg,beech,beech,0.494696,0,beech|hornbeam|spruce,0.494696|0.266640|0.033732
+data\external\beech\beechNet2.jpg,beech,hornbeam,0.207741,1,hornbeam|spruce|beech,0.207741|0.138531|0.123782
+data\external\beech\beechNet3.jpg,beech,beech,0.240539,1,beech|hornbeam|spruce,0.240539|0.127952|0.122535
+data\external\beech\beechNet4.jpg,beech,beech,0.341943,1,beech|hornbeam|spruce,0.341943|0.214690|0.064698
+data\external\beech\beechNet5.jpg,beech,spruce,0.274580,1,spruce|beech|birch,0.274580|0.255454|0.088240
+data\external\beech\beechNet6.jpg,beech,beech,0.284817,1,beech|hornbeam|spruce,0.284817|0.200882|0.099796
+data\external\beech\beechNet7.jpg,beech,spruce,0.240602,1,spruce|ginkgo biloba|beech,0.240602|0.134356|0.080824
+data\external\beech\beechNet8.jpg,beech,hornbeam,0.336302,1,hornbeam|oriental plane|beech,0.336302|0.123034|0.100665
+data\external\beech\beechNet9.jpg,beech,spruce,0.166613,1,spruce|hornbeam|birch,0.166613|0.120124|0.117152
+data\external\birch\birchNet0.jpg,birch,spruce,0.322598,1,spruce|birch|beech,0.322598|0.155333|0.098833
+data\external\birch\birchNet1.jpg,birch,birch,0.254263,1,birch|oriental plane|spruce,0.254263|0.136010|0.124862
+data\external\birch\birchNet2.jpg,birch,hornbeam,0.207549,1,hornbeam|oriental plane|beech,0.207549|0.162905|0.124260
+data\external\birch\birchNet3.jpg,birch,birch,0.386410,1,birch|beech|oriental plane,0.386410|0.138903|0.079585
+data\external\birch\birchNet4.jpg,birch,birch,0.253112,1,birch|beech|spruce,0.253112|0.098581|0.096443
+data\external\birch\birchNet5.jpg,birch,birch,0.393953,1,birch|beech|hornbeam,0.393953|0.142828|0.084117
+data\external\birch\birchNet6.jpg,birch,hornbeam,0.149532,1,hornbeam|birch|oriental plane,0.149532|0.140828|0.124696
+data\external\birch\birchNet7.jpg,birch,birch,0.515166,0,birch|oriental plane|pine,0.515166|0.067203|0.063329
+data\external\birch\birchNet8.jpg,birch,birch,0.288924,1,birch|alder|spruce,0.288924|0.101341|0.097558
+data\external\birch\birchNet9.jpg,birch,birch,0.280367,1,birch|beech|hornbeam,0.280367|0.166157|0.134516
+data\external\linden\lindenNet0.jpg,linden,chestnut,0.223136,1,chestnut|linden|alder,0.223136|0.188469|0.185515
+data\external\linden\lindenNet1.jpg,linden,chestnut,0.155251,1,chestnut|birch|oak,0.155251|0.150005|0.130624
+data\external\linden\lindenNet2.jpg,linden,alder,0.262748,1,alder|linden|horse chestnut,0.262748|0.123114|0.121383
+data\external\linden\lindenNet3.jpg,linden,alder,0.184137,1,alder|chestnut|pine,0.184137|0.130858|0.112668
+data\external\linden\lindenNet4.jpg,linden,chestnut,0.165063,1,chestnut|alder|birch,0.165063|0.133087|0.114579
+data\external\linden\lindenNet5.jpg,linden,spruce,0.139683,1,spruce|linden|oak,0.139683|0.132224|0.122271
+data\external\linden\lindenNet6.jpg,linden,oriental plane,0.323197,1,oriental plane|horse chestnut|ginkgo biloba,0.323197|0.131074|0.108811
+data\external\linden\lindenNet7.jpg,linden,linden,0.143442,1,linden|alder|horse chestnut,0.143442|0.121612|0.118397
+data\external\linden\lindenNet8.jpg,linden,pine,0.144779,1,pine|oak|linden,0.144779|0.120875|0.105726
+data\external\linden\lindenNet9.jpg,linden,linden,0.131949,1,linden|oak|chestnut,0.131949|0.131407|0.119240
+data\external\oak\oakNet0.jpg,oak,linden,0.234094,1,linden|alder|chestnut,0.234094|0.150938|0.124261
+data\external\oak\oakNet1.jpg,oak,ginkgo biloba,0.159326,1,ginkgo biloba|pine|linden,0.159326|0.115420|0.109678
+data\external\oak\oakNet2.jpg,oak,birch,0.181348,1,birch|alder|chestnut,0.181348|0.148699|0.101379
+data\external\oak\oakNet3.jpg,oak,spruce,0.127420,1,spruce|alder|oak,0.127420|0.117659|0.106605
+data\external\oak\oakNet4.jpg,oak,birch,0.154944,1,birch|alder|spruce,0.154944|0.132329|0.109207
+data\external\oak\oakNet5.jpg,oak,linden,0.239171,1,linden|alder|oak,0.239171|0.120424|0.109907
+data\external\oak\oakNet6.jpg,oak,pine,0.236415,1,pine|oak|horse chestnut,0.236415|0.134066|0.110381
+data\external\oak\oakNet7.jpg,oak,linden,0.191015,1,linden|chestnut|oak,0.191015|0.126760|0.123957
+data\external\oak\oakNet8.jpg,oak,birch,0.133300,1,birch|oriental plane|hornbeam,0.133300|0.127612|0.113008
+data\external\oak\oakNet9.jpg,oak,pine,0.178198,1,pine|alder|birch,0.178198|0.135597|0.098820

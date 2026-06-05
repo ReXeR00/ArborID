@@ -1,0 +1,29 @@
+path,true_label,pred_label,pred_prob,topk_labels,topk_probs
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPR\174_EPR_70_Nexus 5_20170608_094525_5.jpg,epr,chr,0.898995,chr|epr|epo,0.898995|0.044423|0.021720
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_10.jpg,epo,chr,0.850787,chr|epo|epb,0.850787|0.057601|0.032870
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_9.jpg,erb,chr,0.819454,chr|erb|epn,0.819454|0.038370|0.037276
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\115_EPO_94_Nexus 5_20170817_120952_11.jpg,epo,chr,0.796344,chr|epo|epr,0.796344|0.096003|0.040012
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_11.jpg,erb,chr,0.785494,chr|epb|epo,0.785494|0.073067|0.059871
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_16.jpg,epo,epb,0.780571,epb|chr|epo,0.780571|0.134448|0.055083
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_5.jpg,epr,chr,0.761551,chr|epb|epr,0.761551|0.082108|0.059225
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_13.jpg,erb,epb,0.757395,epb|chr|epo,0.757395|0.082554|0.058999
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_33.jpg,epr,chr,0.745403,chr|epo|epr,0.745403|0.098222|0.090834
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_15.jpg,epo,epb,0.725820,epb|epo|chr,0.725820|0.162157|0.075587
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_16.jpg,epr,chr,0.690665,chr|epr|epo,0.690665|0.170949|0.083114
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_17.jpg,epo,chr,0.688940,chr|epo|epb,0.688940|0.113082|0.084231
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_17.jpg,epr,chr,0.687852,chr|epr|epo,0.687852|0.111833|0.099554
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_7.jpg,epo,chr,0.684714,chr|epo|epb,0.684714|0.097572|0.065502
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_13.jpg,epo,epb,0.680932,epb|epo|chr,0.680932|0.156963|0.107462
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_13.jpg,epo,chr,0.680903,chr|epb|epo,0.680903|0.169866|0.097789
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_3.jpg,epo,epb,0.673672,epb|epo|chr,0.673672|0.164606|0.114141
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_34.jpg,epr,chr,0.668025,chr|epr|epo,0.668025|0.150995|0.107438
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_10.jpg,epo,epb,0.659688,epb|epo|chr,0.659688|0.202954|0.088918
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPR\174_EPR_70_Nexus 5_20170608_094525_6.jpg,epr,chr,0.656807,chr|epo|epr,0.656807|0.133544|0.128254
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_18.jpg,epo,chr,0.654189,chr|epo|epb,0.654189|0.202625|0.092559
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_14.jpg,epr,chr,0.649584,chr|epr|epo,0.649584|0.124205|0.099787
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_35.jpg,epr,chr,0.635532,chr|epo|epr,0.635532|0.177480|0.123571
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_19.jpg,epr,chr,0.627543,chr|epo|epr,0.627543|0.128860|0.099903
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_2.jpg,epo,epb,0.615199,epb|epo|chr,0.615199|0.255017|0.081172
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_8.jpg,epo,epb,0.614293,epb|epo|chr,0.614293|0.223894|0.107692
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_12.jpg,epo,chr,0.611380,chr|epo|epb,0.611380|0.190616|0.117122
+D:\Programowaine\Projekty-programowania\ML\ArborID\src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_12.jpg,epr,chr,0.601675,chr|epo|epr,0.601675|0.178893|0.108071

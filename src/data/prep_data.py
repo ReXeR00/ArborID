@@ -1,340 +1,379 @@
 from __future__ import annotations
 
-from pathlib import Path
-from collections import defaultdict
+from collections import Counter
+from dataclasses import dataclass
 import json
+import math
 import random
-
-from PIL import Image
-from torch.utils.data import Dataset
-
-from src.data.schemas import BarkNetRecord
+import shutil
+from pathlib import Path
 
 
-IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png"}
+IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 
 
-def normalize_label(label: str) -> str:
-    """
-    Czyści nazwę klasy:
-    - usuwa spacje z początku i końca
-    - zamienia litery na małe
-    - usuwa nadmiarowe spacje w środku
-    """
-    return " ".join(label.strip().lower().split())
-
-
-def load_barknet_records(root: str | Path) -> list[BarkNetRecord]:
-    """
-    Czyta surowe foldery klas, np.:
-
-    root/
-      CHR/
-      EPB/
-      EPN/
-
-    i zwraca listę BarkNetRecord.
-    """
-    root = Path(root)
-    if not root.exists():
-        raise FileNotFoundError(
-            f"Dataset root does not exist: {root}. "
-            "Expected a directory containing one subdirectory per class."
-        )
-    if not root.is_dir():
-        raise NotADirectoryError(
-            f"Dataset root is not a directory: {root}."
-        )
-
-    records: list[BarkNetRecord] = []
-
-    for class_dir in sorted(root.iterdir()):
-        if not class_dir.is_dir():
-            continue
-
-        species = class_dir.name
-
-        for img_path in sorted(class_dir.iterdir()):
-            if not img_path.is_file():
-                continue
-
-            if img_path.suffix.lower() not in IMAGE_EXTENSIONS:
-                continue
-
-            stem = img_path.stem
-            parts = stem.split("_")
-
-            if len(parts) < 2:
-                print(f"[WARN] Unexpected filename format: {img_path.name}")
-                continue
-
-            tree_id = parts[0]
-
-            records.append(
-                BarkNetRecord(
-                    path=str(img_path),
-                    species=species,
-                    tree_id=tree_id,
-                )
-            )
-
-    return records
-
-
-def filter_records(
-    records: list[BarkNetRecord],
-    allowed_classes: list[str] | None = None,
-    max_images_per_class: int | None = None,
-    seed: int = 42,
-) -> list[BarkNetRecord]:
-    """
-    Filtruje rekordy:
-    - zostawia tylko wybrane klasy
-    - ogranicza liczbę zdjęć na klasę
-    - losuje w obrębie klasy przed obcięciem
-    """
-    normalized_allowed = None
-    if allowed_classes is not None:
-        normalized_allowed = {normalize_label(cls) for cls in allowed_classes}
-
-    grouped = defaultdict(list)
-
-    for record in records:
-        species = normalize_label(record.species)
-
-        if normalized_allowed is not None and species not in normalized_allowed:
-            continue
-
-        cleaned_record = BarkNetRecord(
-            path=record.path,
-            species=species,
-            tree_id=record.tree_id,
-        )
-        grouped[species].append(cleaned_record)
-
-    rng = random.Random(seed)
-    filtered: list[BarkNetRecord] = []
-
-    for _, species_records in grouped.items():
-        species_records = species_records[:]
-        rng.shuffle(species_records)
-
-        if max_images_per_class is not None:
-            species_records = species_records[:max_images_per_class]
-
-        filtered.extend(species_records)
-
-    return filtered
-
-
-def build_class_to_idx(records: list[BarkNetRecord]) -> dict[str, int]:
-    """
-    Buduje mapowanie:
-    class_name -> class_idx
-    """
-    classes = sorted({normalize_label(record.species) for record in records})
-    return {class_name: idx for idx, class_name in enumerate(classes)}
-
-
-def split_records(
-    records: list[BarkNetRecord],
-    val_size: float = 0.15,
-    test_size: float = 0.15,
-    seed: int = 44,
-) -> tuple[list[BarkNetRecord], list[BarkNetRecord], list[BarkNetRecord]]:
-
-    grouped = defaultdict(list)
-    for record in records:
-        grouped[normalize_label(record.species)].append(record)
-
-    rng = random.Random(seed)
-
-    train_records: list[BarkNetRecord] = []
-    val_records: list[BarkNetRecord] = []
-    test_records: list[BarkNetRecord] = []
-
-    for species, species_records in grouped.items():
-        trees = defaultdict(list)
-        for r in species_records:
-            trees[r.tree_id].append(r)
-
-        tree_ids = sorted(trees.keys())
-        rng.shuffle(tree_ids)
-
-        total = len(tree_ids)
-        if total == 1:
-            train_trees = tree_ids
-            val_trees = []
-            test_trees = []
-        else:
-            test_count = int(round(total * test_size))
-            val_count = int(round(total * val_size))
-
-            if total >= 3 and test_size > 0:
-                test_count = max(1, test_count)
-            if total >= 4 and val_size > 0:
-                val_count = max(1, val_count)
-
-            test_count = min(test_count, total - 1)
-            val_count = min(val_count, total - test_count - 1)
-
-            if test_count < 0:
-                test_count = 0
-            if val_count < 0:
-                val_count = 0
-
-            train_trees = tree_ids[test_count + val_count:]
-            if not train_trees:
-                if val_count >= test_count and val_count > 0:
-                    val_count -= 1
-                elif test_count > 0:
-                    test_count -= 1
-                train_trees = tree_ids[test_count + val_count:]
-
-            test_trees = tree_ids[:test_count]
-            val_trees = tree_ids[test_count:test_count + val_count]
-
-        for tid in train_trees:
-            train_records.extend(trees[tid])
-        for tid in val_trees:
-            val_records.extend(trees[tid])
-        for tid in test_trees:
-            test_records.extend(trees[tid])
-
-    return train_records, val_records, test_records
-
-
-def count_per_class(records: list[BarkNetRecord]) -> dict[str, int]:
-
-    counts = defaultdict(int)
-    for record in records:
-        counts[normalize_label(record.species)] += 1
-    return dict(sorted(counts.items()))
-
-
-def encode_samples(
-    records: list[BarkNetRecord],
-    class_to_idx: dict[str, int],
-) -> list[tuple[str, int]]:
-
-    samples = []
-    for record in records:
-        species = normalize_label(record.species)
-        class_idx = class_to_idx[species]
-        samples.append((record.path, class_idx))
-    return samples
+@dataclass(frozen=True)
+class SplitPaths:
+    raw_dir: Path
+    train_dir: Path
+    val_dir: Path
+    test_dir: Path
 
 
 def save_json(data: dict, output_path: str | Path) -> None:
-
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    with output_path.open("w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-
-
-class BarkNetDataset(Dataset):
+    with output_path.open("w", encoding="utf-8") as handle:
+        json.dump(data, handle, indent=2, ensure_ascii=False)
 
 
-    def __init__(
-        self,
-        samples: list[tuple[str, int]],
-        class_to_idx: dict[str, int],
-        transform=None,
-    ) -> None:
-        self.samples = samples
-        self.class_to_idx = class_to_idx
-        self.transform = transform
-        self.classes = [cls for cls, _ in sorted(class_to_idx.items(), key=lambda x: x[1])]
-
-    def __len__(self) -> int:
-        return len(self.samples)
-
-    def __getitem__(self, idx: int):
-        img_path, target = self.samples[idx]
-        with Image.open(img_path) as image_file:
-            image = image_file.convert("RGB")
-
-        if self.transform is not None:
-            image = self.transform(image)
-
-        return image, target
+def resolve_split_paths(
+    raw_dir: str | Path,
+    train_dir: str | Path,
+    val_dir: str | Path,
+    test_dir: str | Path,
+) -> SplitPaths:
+    return SplitPaths(
+        raw_dir=Path(raw_dir),
+        train_dir=Path(train_dir),
+        val_dir=Path(val_dir),
+        test_dir=Path(test_dir),
+    )
 
 
-def prepare_barknet_dataset(
-    root: str | Path,
-    train_transform=None,
-    val_transform=None,
-    allowed_classes: list[str] | None = None,
-    max_images_per_class: int | None = None,
-    val_size: float = 0.15,
-    test_size: float = 0.15,
-    seed: int = 42,
-    artifacts_dir: str | Path | None = None,
-):
-
-    records = load_barknet_records(root)
-    if not records:
+def validate_split_ratios(train_ratio: float, val_ratio: float, test_ratio: float) -> None:
+    ratio_sum = train_ratio + val_ratio + test_ratio
+    if not math.isclose(ratio_sum, 1.0, rel_tol=0.0, abs_tol=1e-8):
         raise ValueError(
-            f"No images found under {root}. "
-            "Expected a layout like <root>/<class_name>/<image>.jpg."
+            f"Split ratios must sum to 1.0, got {ratio_sum:.10f} "
+            f"(train={train_ratio}, val={val_ratio}, test={test_ratio})."
         )
 
-    filtered_records = filter_records(
-        records=records,
-        allowed_classes=allowed_classes,
+    for name, value in (("train_ratio", train_ratio), ("val_ratio", val_ratio), ("test_ratio", test_ratio)):
+        if value < 0.0 or value > 1.0:
+            raise ValueError(f"{name} must be between 0.0 and 1.0, got {value}.")
+
+
+def is_image_file(path: Path) -> bool:
+    return path.is_file() and path.suffix.lower() in IMAGE_EXTENSIONS
+
+
+def iter_class_dirs(root: str | Path) -> list[Path]:
+    root = Path(root)
+    if not root.exists():
+        raise FileNotFoundError(f"Dataset directory does not exist: {root}")
+    if not root.is_dir():
+        raise NotADirectoryError(f"Dataset path is not a directory: {root}")
+    return sorted(path for path in root.iterdir() if path.is_dir())
+
+
+def has_any_images(root: str | Path) -> bool:
+    root = Path(root)
+    if not root.exists():
+        return False
+    return any(is_image_file(path) for path in root.rglob("*"))
+
+
+def _clear_existing_split_dir(split_dir: Path) -> None:
+    if split_dir.exists():
+        shutil.rmtree(split_dir)
+    split_dir.mkdir(parents=True, exist_ok=True)
+
+
+def _relative_output_path(raw_class_dir: Path, source_path: Path, destination_class_dir: Path) -> Path:
+    relative_path = source_path.relative_to(raw_class_dir)
+    return destination_class_dir / relative_path
+
+
+def _copy_or_move_file(source_path: Path, destination_path: Path, copy_files: bool) -> None:
+    destination_path.parent.mkdir(parents=True, exist_ok=True)
+    if copy_files:
+        shutil.copy2(source_path, destination_path)
+    else:
+        shutil.move(str(source_path), str(destination_path))
+
+
+def _compute_split_counts(
+    total_images: int,
+    train_ratio: float,
+    val_ratio: float,
+    test_ratio: float,
+) -> tuple[int, int, int]:
+    raw_counts = {
+        "train": total_images * train_ratio,
+        "validation": total_images * val_ratio,
+        "test": total_images * test_ratio,
+    }
+    counts = {name: int(math.floor(value)) for name, value in raw_counts.items()}
+    remainder = total_images - sum(counts.values())
+
+    if remainder > 0:
+        order = sorted(
+            raw_counts.keys(),
+            key=lambda name: (raw_counts[name] - counts[name], raw_counts[name]),
+            reverse=True,
+        )
+        for index in range(remainder):
+            counts[order[index % len(order)]] += 1
+
+    if total_images >= 3:
+        for split_name in ("validation", "test"):
+            if raw_counts[split_name] > 0 and counts[split_name] == 0 and counts["train"] > 1:
+                counts["train"] -= 1
+                counts[split_name] += 1
+
+    if counts["train"] <= 0:
+        raise ValueError(
+            f"Class with {total_images} images would produce an empty train split. "
+            "Increase the class size or adjust the ratios."
+        )
+
+    if sum(counts.values()) != total_images:
+        raise AssertionError("Split count computation did not preserve the image total.")
+
+    return counts["train"], counts["validation"], counts["test"]
+
+
+def collect_raw_class_images(
+    raw_dir: str | Path,
+    *,
+    seed: int = 42,
+    max_images_per_class: int | None = None,
+    min_images_per_class: int = 3,
+) -> dict[str, list[Path]]:
+    raw_dir = Path(raw_dir)
+    class_images: dict[str, list[Path]] = {}
+    rng = random.Random(seed)
+
+    for class_dir in iter_class_dirs(raw_dir):
+        image_paths = sorted(path for path in class_dir.rglob("*") if is_image_file(path))
+        if not image_paths:
+            continue
+
+        shuffled_paths = image_paths[:]
+        rng.shuffle(shuffled_paths)
+
+        if max_images_per_class is not None:
+            shuffled_paths = shuffled_paths[:max_images_per_class]
+
+        if len(shuffled_paths) < min_images_per_class:
+            raise ValueError(
+                f"Class '{class_dir.name}' has only {len(shuffled_paths)} image(s); "
+                f"at least {min_images_per_class} are required."
+            )
+
+        class_images[class_dir.name] = shuffled_paths
+
+    if not class_images:
+        raise ValueError(
+            f"No supported images found under {raw_dir}. "
+            f"Supported extensions: {sorted(IMAGE_EXTENSIONS)}"
+        )
+
+    return dict(sorted(class_images.items()))
+
+
+def validate_prepared_split_dirs(
+    train_dir: str | Path,
+    val_dir: str | Path,
+    test_dir: str | Path,
+) -> dict[str, dict[str, int]]:
+    split_dirs = {
+        "train": Path(train_dir),
+        "validation": Path(val_dir),
+        "test": Path(test_dir),
+    }
+
+    split_class_names: dict[str, set[str]] = {}
+    split_counts: dict[str, dict[str, int]] = {}
+    split_paths: dict[str, set[str]] = {}
+
+    for split_name, split_dir in split_dirs.items():
+        if not split_dir.exists():
+            raise FileNotFoundError(f"Prepared split directory does not exist: {split_dir}")
+
+        class_names = {path.name for path in iter_class_dirs(split_dir) if any(is_image_file(p) for p in path.rglob('*'))}
+        if not class_names:
+            raise ValueError(f"Prepared split directory is empty: {split_dir}")
+
+        counts: dict[str, int] = {}
+        paths: set[str] = set()
+        for class_name in sorted(class_names):
+            class_dir = split_dir / class_name
+            image_paths = sorted(path for path in class_dir.rglob("*") if is_image_file(path))
+            if not image_paths:
+                continue
+            counts[class_name] = len(image_paths)
+            for image_path in image_paths:
+                normalized = str(image_path.resolve())
+                if normalized in paths:
+                    raise ValueError(f"Duplicate prepared image path detected in {split_name}: {image_path}")
+                paths.add(normalized)
+
+        split_class_names[split_name] = set(counts.keys())
+        split_counts[split_name] = counts
+        split_paths[split_name] = paths
+
+    expected_classes = split_class_names["train"]
+    for split_name, class_names in split_class_names.items():
+        if class_names != expected_classes:
+            raise ValueError(
+                "Class folders must match across train/validation/test. "
+                f"Train has {sorted(expected_classes)}, {split_name} has {sorted(class_names)}."
+            )
+
+    if split_paths["train"] & split_paths["validation"]:
+        raise ValueError("Prepared train and validation splits share image paths.")
+    if split_paths["train"] & split_paths["test"]:
+        raise ValueError("Prepared train and test splits share image paths.")
+    if split_paths["validation"] & split_paths["test"]:
+        raise ValueError("Prepared validation and test splits share image paths.")
+
+    return split_counts
+
+
+def prepare_split_dataset(
+    raw_dir: str | Path,
+    train_dir: str | Path,
+    val_dir: str | Path,
+    test_dir: str | Path,
+    *,
+    train_ratio: float = 0.85,
+    val_ratio: float = 0.05,
+    test_ratio: float = 0.10,
+    seed: int = 42,
+    copy_files: bool = True,
+    force_resplit: bool = False,
+    max_images_per_class: int | None = None,
+    min_images_per_class: int = 3,
+) -> dict[str, dict[str, int]]:
+    validate_split_ratios(train_ratio, val_ratio, test_ratio)
+    paths = resolve_split_paths(raw_dir, train_dir, val_dir, test_dir)
+
+    split_dirs = [paths.train_dir, paths.val_dir, paths.test_dir]
+    split_status = {split_dir.name: has_any_images(split_dir) for split_dir in split_dirs}
+    existing_split_has_images = any(split_status.values())
+    all_split_dirs_ready = all(split_status.values())
+
+    if existing_split_has_images and not all_split_dirs_ready and not force_resplit:
+        raise ValueError(
+            "A partial prepared split already exists. "
+            f"Current split status: {split_status}. "
+            "Use force_resplit=True to delete and recreate train/validation/test."
+        )
+
+    if all_split_dirs_ready and not force_resplit:
+        print("[DATA] Existing train/validation/test split detected; skipping split creation.")
+        return validate_prepared_split_dirs(paths.train_dir, paths.val_dir, paths.test_dir)
+
+    if force_resplit:
+        print("[DATA] force_resplit=True, deleting existing prepared split directories.")
+
+    for split_dir in split_dirs:
+        _clear_existing_split_dir(split_dir)
+
+    class_images = collect_raw_class_images(
+        paths.raw_dir,
+        seed=seed,
         max_images_per_class=max_images_per_class,
-        seed=seed,
+        min_images_per_class=min_images_per_class,
     )
 
-    class_to_idx = build_class_to_idx(filtered_records)
-    classes = [cls for cls, _ in sorted(class_to_idx.items(), key=lambda x: x[1])]
+    print(f"[DATA] Found {len(class_images)} classes in {paths.raw_dir}")
 
-    train_records, val_records, test_records = split_records(
-        filtered_records,
-        val_size=val_size,
-        test_size=test_size,
-        seed=seed,
-    )
+    manifest: dict[str, dict[str, list[str]]] = {
+        "train": {},
+        "validation": {},
+        "test": {},
+    }
+    assigned_source_paths: set[str] = set()
+    split_counts: dict[str, dict[str, int]] = {
+        "train": {},
+        "validation": {},
+        "test": {},
+    }
 
-    train_samples = encode_samples(train_records, class_to_idx)
-    val_samples = encode_samples(val_records, class_to_idx)
-    test_samples = encode_samples(test_records, class_to_idx)
+    for class_name, image_paths in class_images.items():
+        class_rng = random.Random(f"{seed}:{class_name}")
+        class_paths = image_paths[:]
+        class_rng.shuffle(class_paths)
 
-    train_ds = BarkNetDataset(
-        samples=train_samples,
-        class_to_idx=class_to_idx,
-        transform=train_transform,
-    )
-    val_ds = BarkNetDataset(
-        samples=val_samples,
-        class_to_idx=class_to_idx,
-        transform=val_transform,
-    )
-    test_ds = BarkNetDataset(
-        samples=test_samples,
-        class_to_idx=class_to_idx,
-        transform=val_transform,
-    )
-
-    if artifacts_dir is not None:
-        artifacts_dir = Path(artifacts_dir)
-
-        save_json(class_to_idx, artifacts_dir / "class_to_idx.json")
-        save_json(
-            {
-                "num_records_total": len(filtered_records),
-                "num_train": len(train_samples),
-                "num_val": len(val_samples),
-                "num_test": len(test_samples),
-                "classes": classes,
-                "counts_total": count_per_class(filtered_records),
-                "counts_train": count_per_class(train_records),
-                "counts_val": count_per_class(val_records),
-                "counts_test": count_per_class(test_records),
-            },
-            artifacts_dir / "dataset_info.json",
+        train_count, val_count, test_count = _compute_split_counts(
+            len(class_paths),
+            train_ratio,
+            val_ratio,
+            test_ratio,
         )
 
-    return train_ds, val_ds, test_ds, classes
+        train_paths = class_paths[:train_count]
+        val_paths = class_paths[train_count:train_count + val_count]
+        test_paths = class_paths[train_count + val_count:]
+
+        if len(test_paths) != test_count:
+            raise AssertionError(f"Unexpected split allocation for class {class_name}.")
+
+        raw_class_dir = paths.raw_dir / class_name
+        targets = [
+            ("train", paths.train_dir / class_name, train_paths),
+            ("validation", paths.val_dir / class_name, val_paths),
+            ("test", paths.test_dir / class_name, test_paths),
+        ]
+
+        for split_name, destination_class_dir, split_paths_for_class in targets:
+            destination_class_dir.mkdir(parents=True, exist_ok=True)
+            manifest[split_name][class_name] = []
+            split_counts[split_name][class_name] = len(split_paths_for_class)
+
+            for source_path in split_paths_for_class:
+                source_key = str(source_path.resolve())
+                if source_key in assigned_source_paths:
+                    raise ValueError(f"Raw image was assigned to more than one split: {source_path}")
+                assigned_source_paths.add(source_key)
+
+                destination_path = _relative_output_path(raw_class_dir, source_path, destination_class_dir)
+                _copy_or_move_file(source_path, destination_path, copy_files=copy_files)
+                manifest[split_name][class_name].append(str(source_path))
+
+        print(
+            f"[DATA] {class_name}: "
+            f"{train_count} train, {val_count} validation, {test_count} test"
+        )
+
+    counts = validate_prepared_split_dirs(paths.train_dir, paths.val_dir, paths.test_dir)
+    for split_name, per_class_counts in counts.items():
+        if set(per_class_counts.keys()) != set(class_images.keys()):
+            raise ValueError(f"Prepared {split_name} split is missing one or more class folders.")
+
+    print("[DATA] Dataset split completed.")
+    save_json(
+        {
+            "raw_dir": str(paths.raw_dir),
+            "train_dir": str(paths.train_dir),
+            "val_dir": str(paths.val_dir),
+            "test_dir": str(paths.test_dir),
+            "train_ratio": train_ratio,
+            "val_ratio": val_ratio,
+            "test_ratio": test_ratio,
+            "seed": seed,
+            "copy_files": copy_files,
+            "force_resplit": force_resplit,
+            "max_images_per_class": max_images_per_class,
+            "manifest": manifest,
+            "counts": counts,
+        },
+        paths.train_dir.parent / "split_manifest.json",
+    )
+    return counts
+
+
+def build_class_to_idx_from_dir(train_dir: str | Path) -> dict[str, int]:
+    train_dir = Path(train_dir)
+    class_names = [path.name for path in iter_class_dirs(train_dir) if any(is_image_file(p) for p in path.rglob("*"))]
+    if not class_names:
+        raise ValueError(f"No class folders with images found under {train_dir}")
+    return {class_name: index for index, class_name in enumerate(sorted(class_names))}
+
+
+def count_dataset_samples_by_class(samples: list[tuple[str, int]], classes: list[str]) -> dict[str, int]:
+    counts = Counter(target for _, target in samples)
+    return {class_name: counts.get(index, 0) for index, class_name in enumerate(classes)}

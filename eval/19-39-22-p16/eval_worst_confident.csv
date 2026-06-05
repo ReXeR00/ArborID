@@ -1,0 +1,5 @@
+path,true_label,pred_label,pred_prob,topk_labels,topk_probs
+data\external1\oak\oakNet5.jpg,oak,linden,0.852832,linden|alder|chestnut,0.852832|0.070832|0.015827
+data\external1\linden\lindenNet0.jpg,linden,chestnut,0.765653,chestnut|linden|alder,0.765653|0.109634|0.042062
+data\external1\oak\oakNet7.jpg,oak,linden,0.713149,linden|chestnut|oak,0.713149|0.139567|0.030519
+data\external1\oak\oakNet4.jpg,oak,birch,0.651355,birch|alder|pine,0.651355|0.091010|0.041200

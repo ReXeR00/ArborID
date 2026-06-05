@@ -1,0 +1,502 @@
+path,true_label,pred_label,pred_prob,uncertain,topk_labels,topk_probs
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_10.jpg,chr,chr,0.739575,0,chr|epo|epn,0.739575|0.150903|0.048657
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_11.jpg,chr,chr,0.649680,0,chr|epn|epo,0.649680|0.109935|0.093749
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_12.jpg,chr,epn,0.291732,1,epn|epb|chr,0.291732|0.262632|0.200997
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_13.jpg,chr,epo,0.334772,1,epo|chr|epn,0.334772|0.220254|0.196737
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_14.jpg,chr,chr,0.457530,0,chr|epn|epb,0.457530|0.212722|0.172467
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_15.jpg,chr,chr,0.443564,1,chr|epo|epn,0.443564|0.315288|0.109487
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_16.jpg,chr,chr,0.739441,0,chr|epo|epb,0.739441|0.148581|0.048086
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_17.jpg,chr,epo,0.443982,1,epo|chr|epb,0.443982|0.434790|0.051457
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_18.jpg,chr,epo,0.447192,1,epo|chr|epn,0.447192|0.442534|0.043523
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_19.jpg,chr,chr,0.441164,1,chr|epo|epb,0.441164|0.320728|0.112487
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_2.jpg,chr,chr,0.560871,0,chr|epb|epn,0.560871|0.267185|0.107136
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_20.jpg,chr,epo,0.415229,1,epo|chr|epb,0.415229|0.375699|0.102160
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_21.jpg,chr,chr,0.779720,0,chr|epo|epb,0.779720|0.090137|0.067584
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_22.jpg,chr,chr,0.602309,0,chr|epo|epb,0.602309|0.236065|0.065554
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_23.jpg,chr,chr,0.483337,0,chr|epb|epo,0.483337|0.278571|0.179910
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_24.jpg,chr,chr,0.553699,0,chr|epb|epn,0.553699|0.215204|0.105597
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_25.jpg,chr,epo,0.412670,1,epo|chr|epb,0.412670|0.361163|0.140476
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_26.jpg,chr,chr,0.382301,1,chr|epb|epo,0.382301|0.289133|0.227294
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_27.jpg,chr,chr,0.568543,0,chr|epo|epb,0.568543|0.220948|0.071729
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_28.jpg,chr,chr,0.773148,0,chr|epb|epo,0.773148|0.099981|0.086036
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_29.jpg,chr,chr,0.567587,0,chr|epo|epb,0.567587|0.203022|0.158364
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_3.jpg,chr,chr,0.513667,0,chr|epb|epn,0.513667|0.253127|0.136698
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_30.jpg,chr,chr,0.629447,0,chr|epb|epo,0.629447|0.277351|0.039054
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_31.jpg,chr,chr,0.648150,0,chr|epb|epo,0.648150|0.185492|0.126158
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_32.jpg,chr,chr,0.690603,0,chr|epb|epo,0.690603|0.211115|0.050766
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_33.jpg,chr,chr,0.677421,0,chr|epo|epb,0.677421|0.137283|0.129285
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_34.jpg,chr,chr,0.720145,0,chr|epo|epb,0.720145|0.143642|0.073278
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_35.jpg,chr,chr,0.445540,1,chr|epo|epb,0.445540|0.316880|0.155016
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_36.jpg,chr,chr,0.400119,1,chr|epo|epb,0.400119|0.232033|0.189230
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_37.jpg,chr,chr,0.396257,1,chr|epb|epn,0.396257|0.309580|0.216352
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_38.jpg,chr,epb,0.501652,0,epb|chr|epn,0.501652|0.200449|0.151696
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_39.jpg,chr,chr,0.601068,0,chr|epb|epn,0.601068|0.309621|0.041532
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_4.jpg,chr,chr,0.521589,0,chr|epo|epn,0.521589|0.146676|0.110025
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_40.jpg,chr,chr,0.635309,0,chr|epb|epo,0.635309|0.227966|0.078689
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_41.jpg,chr,chr,0.586714,0,chr|epb|epo,0.586714|0.235417|0.094800
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_42.jpg,chr,chr,0.475783,0,chr|epb|epo,0.475783|0.314974|0.097013
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_43.jpg,chr,chr,0.376063,1,chr|epo|epb,0.376063|0.289810|0.214237
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_44.jpg,chr,chr,0.665225,0,chr|epb|epn,0.665225|0.137223|0.100502
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_45.jpg,chr,chr,0.686010,0,chr|epo|epb,0.686010|0.121666|0.115897
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_46.jpg,chr,chr,0.857087,0,chr|epo|epn,0.857087|0.048696|0.037219
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_47.jpg,chr,chr,0.716456,0,chr|epo|epn,0.716456|0.171748|0.036358
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_48.jpg,chr,chr,0.673781,0,chr|epb|epo,0.673781|0.151363|0.090767
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_5.jpg,chr,epo,0.426456,1,epo|epn|chr,0.426456|0.274438|0.238198
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_6.jpg,chr,chr,0.550695,0,chr|epo|epn,0.550695|0.202416|0.074760
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_7.jpg,chr,chr,0.543974,0,chr|epo|epn,0.543974|0.224229|0.138937
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_8.jpg,chr,chr,0.636376,0,chr|epo|epn,0.636376|0.169323|0.103295
+src\data\testdata\CHR\41_CHR_83_GalaxyS5_20170607_134920_9.jpg,chr,chr,0.479151,0,chr|epo|epb,0.479151|0.182556|0.162076
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_10.jpg,chr,epn,0.527824,0,epn|chr|epo,0.527824|0.294770|0.099283
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_11.jpg,chr,epn,0.871863,0,epn|chr|epo,0.871863|0.042315|0.039915
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_12.jpg,chr,chr,0.489171,0,chr|epn|epo,0.489171|0.256077|0.194448
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_13.jpg,chr,epn,0.595276,0,epn|chr|epo,0.595276|0.240844|0.081689
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_14.jpg,chr,epn,0.364352,1,epn|chr|epo,0.364352|0.342516|0.214685
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_15.jpg,chr,epn,0.862548,0,epn|chr|epr,0.862548|0.046671|0.043563
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_16.jpg,chr,epn,0.392530,1,epn|epo|chr,0.392530|0.262035|0.257477
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_17.jpg,chr,chr,0.752892,0,chr|epo|epr,0.752892|0.080579|0.044540
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_18.jpg,chr,chr,0.287047,1,chr|epn|epo,0.287047|0.279109|0.206170
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_19.jpg,chr,epn,0.526878,0,epn|chr|epo,0.526878|0.259267|0.093282
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_2.jpg,chr,epr,0.300436,1,epr|chr|epo,0.300436|0.239775|0.187098
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_20.jpg,chr,epo,0.580233,0,epo|chr|epn,0.580233|0.180947|0.118694
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_21.jpg,chr,epn,0.638599,0,epn|chr|epo,0.638599|0.190372|0.104581
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_22.jpg,chr,epn,0.531601,0,epn|chr|epo,0.531601|0.265663|0.121345
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_23.jpg,chr,epn,0.581094,0,epn|chr|epo,0.581094|0.181448|0.148429
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_24.jpg,chr,epn,0.583780,0,epn|chr|epb,0.583780|0.125313|0.115124
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_25.jpg,chr,chr,0.441986,1,chr|epn|epo,0.441986|0.436171|0.058049
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_26.jpg,chr,chr,0.364082,1,chr|epo|epn,0.364082|0.292745|0.153961
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_27.jpg,chr,chr,0.822507,0,chr|epo|epr,0.822507|0.050443|0.034540
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_28.jpg,chr,epn,0.482153,0,epn|epo|chr,0.482153|0.254902|0.181479
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_29.jpg,chr,epo,0.333089,1,epo|epn|chr,0.333089|0.263322|0.178722
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_3.jpg,chr,epo,0.359134,1,epo|epn|chr,0.359134|0.357246|0.178189
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_30.jpg,chr,epn,0.547773,0,epn|chr|epo,0.547773|0.197705|0.160832
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_31.jpg,chr,epn,0.458496,0,epn|chr|epo,0.458496|0.340986|0.106378
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_32.jpg,chr,epn,0.321553,1,epn|chr|epo,0.321553|0.319712|0.259677
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_33.jpg,chr,chr,0.875710,0,chr|epo|epb,0.875710|0.030556|0.025495
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_34.jpg,chr,epn,0.356945,1,epn|chr|epo,0.356945|0.243466|0.239251
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_35.jpg,chr,chr,0.502691,0,chr|epo|epr,0.502691|0.175200|0.104597
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_36.jpg,chr,epn,0.398916,1,epn|chr|epo,0.398916|0.329130|0.190824
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_37.jpg,chr,epn,0.567677,0,epn|epo|chr,0.567677|0.191290|0.170776
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_38.jpg,chr,epn,0.604137,0,epn|epo|chr,0.604137|0.216131|0.108631
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_39.jpg,chr,epn,0.414401,1,epn|chr|epb,0.414401|0.260643|0.234783
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_4.jpg,chr,epn,0.462256,0,epn|chr|epo,0.462256|0.381145|0.089153
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_40.jpg,chr,epn,0.511209,0,epn|chr|epo,0.511209|0.217605|0.164237
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_41.jpg,chr,chr,0.560095,0,chr|erb|epo,0.560095|0.134631|0.105984
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_42.jpg,chr,chr,0.535742,0,chr|erb|epo,0.535742|0.152101|0.100724
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_43.jpg,chr,epn,0.499477,0,epn|chr|epo,0.499477|0.280417|0.081762
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_44.jpg,chr,chr,0.380103,1,chr|epn|epo,0.380103|0.312770|0.108165
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_45.jpg,chr,epn,0.438309,1,epn|chr|epo,0.438309|0.228412|0.185364
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_46.jpg,chr,epn,0.403104,1,epn|epo|chr,0.403104|0.212128|0.189828
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_47.jpg,chr,chr,0.846109,0,chr|epo|erb,0.846109|0.041845|0.037045
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_48.jpg,chr,epn,0.704067,0,epn|chr|epo,0.704067|0.124167|0.075004
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_49.jpg,chr,epn,0.660837,0,epn|chr|epo,0.660837|0.187951|0.084999
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_5.jpg,chr,epn,0.941139,0,epn|chr|epo,0.941139|0.019542|0.015776
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_50.jpg,chr,epn,0.706971,0,epn|chr|epo,0.706971|0.121827|0.098559
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_51.jpg,chr,epn,0.811645,0,epn|chr|epo,0.811645|0.088555|0.042746
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_52.jpg,chr,epn,0.716490,0,epn|chr|epr,0.716490|0.177290|0.029126
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_6.jpg,chr,epn,0.820174,0,epn|chr|epr,0.820174|0.099746|0.032470
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_7.jpg,chr,epn,0.473088,0,epn|chr|epo,0.473088|0.427130|0.050535
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_8.jpg,chr,epn,0.943172,0,epn|epo|chr,0.943172|0.018742|0.015818
+src\data\testdata\CHR\41_CHR_83_GalaxyS7_20170607_134909_9.jpg,chr,epn,0.860218,0,epn|chr|epr,0.860218|0.069051|0.030666
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_10.jpg,epb,epo,0.944797,0,epo|chr|epn,0.944797|0.024835|0.013857
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_11.jpg,epb,epo,0.892064,0,epo|chr|epn,0.892064|0.069329|0.014950
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_12.jpg,epb,epo,0.843596,0,epo|chr|epn,0.843596|0.105684|0.018838
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_13.jpg,epb,epo,0.842839,0,epo|chr|epn,0.842839|0.060428|0.044640
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_14.jpg,epb,epo,0.628404,0,epo|epb|chr,0.628404|0.116249|0.115128
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_15.jpg,epb,epb,0.693361,0,epb|chr|epo,0.693361|0.163382|0.090458
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_2.jpg,epb,epo,0.800603,0,epo|chr|epb,0.800603|0.066821|0.041807
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_3.jpg,epb,epo,0.741009,0,epo|chr|epn,0.741009|0.105161|0.073592
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_4.jpg,epb,epo,0.532595,0,epo|chr|epb,0.532595|0.238243|0.132497
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_5.jpg,epb,epo,0.669045,0,epo|epb|chr,0.669045|0.122555|0.110348
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_6.jpg,epb,epo,0.792159,0,epo|epn|epb,0.792159|0.118036|0.041118
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_7.jpg,epb,epo,0.627205,0,epo|chr|epn,0.627205|0.109529|0.106983
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_8.jpg,epb,epo,0.640786,0,epo|epn|epr,0.640786|0.136884|0.130177
+src\data\testdata\EPB\82_EPB_90_Nexus 5_20170817_105916_9.jpg,epb,epo,0.911226,0,epo|chr|epb,0.911226|0.043189|0.014959
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_10.jpg,epb,epb,0.724290,0,epb|chr|epo,0.724290|0.177496|0.050090
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_11.jpg,epb,epb,0.563785,0,epb|epo|chr,0.563785|0.302380|0.089374
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_12.jpg,epb,epb,0.474484,0,epb|epo|chr,0.474484|0.363827|0.101873
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_13.jpg,epb,epb,0.368223,1,epb|chr|epo,0.368223|0.297576|0.274543
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_14.jpg,epb,epb,0.440983,1,epb|chr|epo,0.440983|0.265620|0.215921
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_15.jpg,epb,epb,0.539193,0,epb|chr|epo,0.539193|0.198533|0.173860
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_16.jpg,epb,epb,0.563475,0,epb|chr|epo,0.563475|0.263976|0.116249
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_2.jpg,epb,epo,0.747105,0,epo|epb|chr,0.747105|0.110383|0.070404
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_3.jpg,epb,epo,0.676145,0,epo|chr|epb,0.676145|0.134480|0.109616
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_4.jpg,epb,epb,0.424111,1,epb|epn|chr,0.424111|0.208656|0.190105
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_5.jpg,epb,epo,0.496551,0,epo|chr|epb,0.496551|0.304721|0.089027
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_6.jpg,epb,epb,0.521605,0,epb|epo|chr,0.521605|0.343491|0.072859
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_7.jpg,epb,epo,0.524092,0,epo|epb|chr,0.524092|0.316975|0.110366
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_8.jpg,epb,epo,0.558210,0,epo|epb|chr,0.558210|0.329053|0.066516
+src\data\testdata\EPB\83_EPB_110_Nexus 5_20170817_110019_9.jpg,epb,epo,0.703249,0,epo|epb|chr,0.703249|0.171854|0.074187
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_10.jpg,epb,epb,0.349823,1,epb|chr|epo,0.349823|0.277360|0.181552
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_11.jpg,epb,epo,0.356944,1,epo|epb|epn,0.356944|0.220765|0.184319
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_12.jpg,epb,epb,0.434233,1,epb|epo|epn,0.434233|0.204769|0.151005
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_13.jpg,epb,epo,0.782151,0,epo|epb|chr,0.782151|0.090415|0.073743
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_14.jpg,epb,epo,0.657111,0,epo|chr|epb,0.657111|0.135394|0.115061
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_15.jpg,epb,epo,0.600425,0,epo|chr|epb,0.600425|0.189939|0.116514
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_16.jpg,epb,epo,0.692653,0,epo|chr|epr,0.692653|0.128880|0.072299
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_2.jpg,epb,epb,0.410524,1,epb|epo|chr,0.410524|0.407275|0.111557
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_3.jpg,epb,epb,0.607577,0,epb|epo|chr,0.607577|0.217928|0.105897
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_4.jpg,epb,epo,0.438682,1,epo|epn|epb,0.438682|0.307505|0.151791
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_5.jpg,epb,epo,0.497862,0,epo|epb|chr,0.497862|0.311220|0.089577
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_6.jpg,epb,epo,0.683615,0,epo|chr|epb,0.683615|0.106756|0.093483
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_7.jpg,epb,epo,0.315712,1,epo|epn|epb,0.315712|0.290418|0.209037
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_8.jpg,epb,epo,0.396319,1,epo|epb|epn,0.396319|0.354858|0.112221
+src\data\testdata\EPB\84_EPB_100_Nexus 5_20170817_110117_9.jpg,epb,epo,0.677463,0,epo|epb|chr,0.677463|0.175730|0.065186
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_10.jpg,epb,epo,0.688263,0,epo|chr|epb,0.688263|0.120448|0.116364
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_11.jpg,epb,epo,0.820593,0,epo|epb|chr,0.820593|0.070530|0.065571
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_12.jpg,epb,epo,0.736820,0,epo|chr|epb,0.736820|0.125704|0.068260
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_13.jpg,epb,epo,0.329181,1,epo|chr|epb,0.329181|0.253686|0.249318
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_14.jpg,epb,epo,0.419181,1,epo|epb|chr,0.419181|0.221390|0.185582
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_15.jpg,epb,epo,0.679158,0,epo|epb|chr,0.679158|0.230313|0.032871
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_16.jpg,epb,epo,0.723531,0,epo|epb|epr,0.723531|0.164933|0.046306
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_2.jpg,epb,epo,0.769308,0,epo|chr|epb,0.769308|0.086378|0.062586
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_3.jpg,epb,epb,0.621538,0,epb|chr|epo,0.621538|0.173696|0.139958
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_4.jpg,epb,epb,0.500498,0,epb|chr|epo,0.500498|0.210763|0.201139
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_5.jpg,epb,epo,0.458505,0,epo|chr|epb,0.458505|0.248237|0.178043
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_6.jpg,epb,epo,0.665840,0,epo|epb|epn,0.665840|0.184030|0.055306
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_7.jpg,epb,epo,0.550925,0,epo|epb|chr,0.550925|0.246966|0.093824
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_8.jpg,epb,epo,0.548169,0,epo|epb|chr,0.548169|0.192547|0.184890
+src\data\testdata\EPB\85_EPB_104_Nexus 5_20170817_110447_9.jpg,epb,epo,0.507240,0,epo|chr|epb,0.507240|0.163980|0.125739
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_10.jpg,epb,epb,0.524859,0,epb|chr|epo,0.524859|0.316950|0.064948
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_11.jpg,epb,epo,0.775761,0,epo|chr|epb,0.775761|0.116432|0.042740
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_12.jpg,epb,epo,0.539734,0,epo|chr|epb,0.539734|0.182357|0.125386
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_13.jpg,epb,chr,0.321120,1,chr|epo|epb,0.321120|0.319931|0.166294
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_14.jpg,epb,epo,0.445435,1,epo|chr|epb,0.445435|0.306942|0.163386
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_15.jpg,epb,epo,0.610770,0,epo|chr|epb,0.610770|0.201108|0.098295
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_2.jpg,epb,epo,0.498694,0,epo|epb|chr,0.498694|0.298734|0.144935
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_3.jpg,epb,epo,0.781043,0,epo|epb|chr,0.781043|0.102819|0.087961
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_4.jpg,epb,chr,0.351333,1,chr|epb|epo,0.351333|0.333408|0.225593
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_5.jpg,epb,epo,0.560881,0,epo|epb|chr,0.560881|0.307349|0.090843
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_6.jpg,epb,epb,0.477394,0,epb|epo|chr,0.477394|0.368378|0.102882
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_7.jpg,epb,epo,0.841147,0,epo|chr|epb,0.841147|0.070483|0.061989
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_8.jpg,epb,epo,0.501105,0,epo|epb|chr,0.501105|0.385735|0.043991
+src\data\testdata\EPB\86_EPB_84_Nexus 5_20170817_110559_9.jpg,epb,epo,0.494783,0,epo|epb|chr,0.494783|0.255539|0.182558
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_10.jpg,epb,epb,0.764068,0,epb|epo|chr,0.764068|0.118659|0.073184
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_11.jpg,epb,chr,0.380603,1,chr|epb|epo,0.380603|0.321742|0.172148
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_12.jpg,epb,epb,0.409590,1,epb|epo|chr,0.409590|0.383363|0.129592
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_13.jpg,epb,epo,0.406369,1,epo|epb|chr,0.406369|0.255146|0.181708
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_14.jpg,epb,chr,0.289953,1,chr|epb|epn,0.289953|0.237990|0.185819
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_15.jpg,epb,epo,0.681523,0,epo|chr|epr,0.681523|0.140319|0.069983
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_16.jpg,epb,epo,0.477902,0,epo|chr|epb,0.477902|0.224155|0.175022
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_2.jpg,epb,epo,0.799576,0,epo|chr|epb,0.799576|0.130133|0.022801
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_3.jpg,epb,epo,0.468625,0,epo|epb|chr,0.468625|0.237256|0.222179
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_4.jpg,epb,chr,0.377883,1,chr|epo|epb,0.377883|0.337330|0.159595
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_5.jpg,epb,epb,0.670992,0,epb|chr|epo,0.670992|0.132707|0.130831
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_6.jpg,epb,epb,0.815314,0,epb|epo|chr,0.815314|0.078216|0.070976
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_7.jpg,epb,epb,0.666759,0,epb|epo|chr,0.666759|0.152871|0.143084
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_8.jpg,epb,chr,0.446230,1,chr|epo|epb,0.446230|0.175697|0.173502
+src\data\testdata\EPB\87_EPB_91_Nexus 5_20170817_110708_9.jpg,epb,epb,0.740544,0,epb|epo|chr,0.740544|0.171248|0.042884
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_10.jpg,epb,epb,0.822581,0,epb|chr|epo,0.822581|0.082797|0.069692
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_11.jpg,epb,epb,0.647918,0,epb|chr|epo,0.647918|0.187980|0.116901
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_12.jpg,epb,epo,0.830517,0,epo|epb|chr,0.830517|0.097961|0.036980
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_13.jpg,epb,epo,0.671858,0,epo|chr|epb,0.671858|0.160337|0.071144
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_14.jpg,epb,epo,0.516652,0,epo|epb|chr,0.516652|0.241557|0.138878
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_15.jpg,epb,epo,0.670408,0,epo|epb|chr,0.670408|0.146731|0.095808
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_16.jpg,epb,epb,0.508077,0,epb|epo|epn,0.508077|0.264791|0.118295
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_17.jpg,epb,epo,0.454240,0,epo|epb|chr,0.454240|0.370932|0.097904
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_2.jpg,epb,epo,0.441416,1,epo|epb|chr,0.441416|0.320624|0.151453
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_3.jpg,epb,epo,0.387601,1,epo|epb|chr,0.387601|0.314110|0.129740
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_4.jpg,epb,epb,0.437382,1,epb|chr|epo,0.437382|0.197940|0.182762
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_5.jpg,epb,epo,0.670440,0,epo|epb|epn,0.670440|0.128024|0.062471
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_6.jpg,epb,epo,0.557159,0,epo|epb|chr,0.557159|0.336463|0.043778
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_7.jpg,epb,epo,0.361565,1,epo|epb|chr,0.361565|0.325910|0.169048
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_8.jpg,epb,epb,0.397867,1,epb|epo|chr,0.397867|0.372125|0.150471
+src\data\testdata\EPB\88_EPB_73_Nexus 5_20170817_110805_9.jpg,epb,epb,0.582210,0,epb|epo|epr,0.582210|0.255529|0.064069
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_10.jpg,epn,epo,0.399697,1,epo|chr|epb,0.399697|0.325594|0.112535
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_11.jpg,epn,chr,0.387184,1,chr|epo|epb,0.387184|0.358227|0.149492
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_12.jpg,epn,epo,0.540752,0,epo|chr|epb,0.540752|0.335279|0.046374
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_13.jpg,epn,chr,0.422633,1,chr|epo|epn,0.422633|0.190001|0.156480
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_14.jpg,epn,chr,0.419690,1,chr|epo|epn,0.419690|0.229110|0.165053
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_15.jpg,epn,epo,0.382042,1,epo|chr|epb,0.382042|0.269180|0.222357
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_16.jpg,epn,chr,0.418530,1,chr|epo|epb,0.418530|0.261099|0.099334
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_17.jpg,epn,chr,0.340845,1,chr|epb|epn,0.340845|0.254216|0.137571
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_18.jpg,epn,chr,0.424115,1,chr|epo|epr,0.424115|0.379891|0.057372
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_19.jpg,epn,chr,0.586807,0,chr|epo|epb,0.586807|0.140702|0.103009
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_2.jpg,epn,epo,0.756851,0,epo|chr|epn,0.756851|0.144639|0.030976
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_20.jpg,epn,chr,0.393048,1,chr|epo|epb,0.393048|0.284850|0.201937
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_21.jpg,epn,chr,0.308269,1,chr|epo|epb,0.308269|0.268199|0.212099
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_22.jpg,epn,chr,0.337172,1,chr|epo|epb,0.337172|0.240151|0.221693
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_3.jpg,epn,epo,0.581747,0,epo|chr|epn,0.581747|0.176731|0.123210
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_4.jpg,epn,epo,0.430670,1,epo|chr|epn,0.430670|0.357609|0.096906
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_5.jpg,epn,epo,0.705381,0,epo|chr|epn,0.705381|0.140534|0.075814
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_6.jpg,epn,epo,0.428583,1,epo|chr|epn,0.428583|0.359569|0.082189
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_7.jpg,epn,epo,0.458606,0,epo|chr|epn,0.458606|0.315894|0.129974
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_8.jpg,epn,epo,0.557450,0,epo|chr|epn,0.557450|0.322312|0.057733
+src\data\testdata\EPN\695_EPN_82_GalaxyS5_20170622_100334_9.jpg,epn,epo,0.485983,0,epo|chr|epb,0.485983|0.291609|0.085219
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_10.jpg,epn,chr,0.308036,1,chr|epo|epb,0.308036|0.301317|0.174371
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_11.jpg,epn,epo,0.441477,1,epo|chr|epr,0.441477|0.262083|0.151233
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_12.jpg,epn,epo,0.464277,0,epo|chr|epr,0.464277|0.294670|0.148351
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_13.jpg,epn,chr,0.431521,1,chr|epo|epr,0.431521|0.314270|0.083116
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_14.jpg,epn,epo,0.592061,0,epo|chr|epr,0.592061|0.277495|0.047996
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_15.jpg,epn,chr,0.441562,1,chr|epb|epo,0.441562|0.301363|0.109923
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_16.jpg,epn,epb,0.373050,1,epb|chr|epn,0.373050|0.218192|0.200300
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_17.jpg,epn,epo,0.654012,0,epo|chr|epb,0.654012|0.116938|0.079577
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_18.jpg,epn,epo,0.691984,0,epo|chr|epb,0.691984|0.120319|0.073698
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_2.jpg,epn,chr,0.525745,0,chr|epo|epr,0.525745|0.224589|0.102351
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_3.jpg,epn,epo,0.399798,1,epo|chr|epr,0.399798|0.364649|0.117420
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_4.jpg,epn,chr,0.402126,1,chr|epo|epb,0.402126|0.238985|0.165905
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_5.jpg,epn,chr,0.282679,1,chr|epo|epb,0.282679|0.227645|0.214862
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_6.jpg,epn,epb,0.378478,1,epb|chr|epo,0.378478|0.199139|0.183508
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_7.jpg,epn,chr,0.363265,1,chr|epo|epb,0.363265|0.355062|0.096393
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_8.jpg,epn,chr,0.361353,1,chr|epo|epb,0.361353|0.320447|0.123562
+src\data\testdata\EPN\696_EPN_89_GalaxyS5_20170622_100458_9.jpg,epn,epo,0.511086,0,epo|chr|epr,0.511086|0.249120|0.141436
+src\data\testdata\EPN\697_EPN_110_GalaxyS5_20170622_100619_10.jpg,epn,chr,0.425105,1,chr|epo|epb,0.425105|0.192495|0.123387
+src\data\testdata\EPN\697_EPN_110_GalaxyS5_20170622_100619_11.jpg,epn,epb,0.594332,0,epb|epo|chr,0.594332|0.267237|0.056808
+src\data\testdata\EPN\697_EPN_110_GalaxyS5_20170622_100619_12.jpg,epn,epb,0.596667,0,epb|epo|epn,0.596667|0.116240|0.110543
+src\data\testdata\EPN\697_EPN_110_GalaxyS5_20170622_100619_13.jpg,epn,epb,0.374504,1,epb|epo|chr,0.374504|0.309266|0.171007
+src\data\testdata\EPN\697_EPN_110_GalaxyS5_20170622_100619_14.jpg,epn,epb,0.339631,1,epb|epn|chr,0.339631|0.230854|0.180810
+src\data\testdata\EPN\697_EPN_110_GalaxyS5_20170622_100619_2.jpg,epn,epo,0.798470,0,epo|epb|epn,0.798470|0.060948|0.053280
+src\data\testdata\EPN\697_EPN_110_GalaxyS5_20170622_100619_3.jpg,epn,epb,0.394872,1,epb|epn|epo,0.394872|0.249528|0.166560
+src\data\testdata\EPN\697_EPN_110_GalaxyS5_20170622_100619_4.jpg,epn,epn,0.348265,1,epn|epb|epo,0.348265|0.307906|0.132399
+src\data\testdata\EPN\697_EPN_110_GalaxyS5_20170622_100619_5.jpg,epn,epo,0.629706,0,epo|epb|epn,0.629706|0.212192|0.065259
+src\data\testdata\EPN\697_EPN_110_GalaxyS5_20170622_100619_6.jpg,epn,epo,0.488094,0,epo|epb|chr,0.488094|0.306928|0.096127
+src\data\testdata\EPN\697_EPN_110_GalaxyS5_20170622_100619_7.jpg,epn,chr,0.300130,1,chr|epo|epb,0.300130|0.256896|0.172351
+src\data\testdata\EPN\697_EPN_110_GalaxyS5_20170622_100619_8.jpg,epn,epo,0.483937,0,epo|epb|epn,0.483937|0.168158|0.161424
+src\data\testdata\EPN\697_EPN_110_GalaxyS5_20170622_100619_9.jpg,epn,epo,0.528361,0,epo|epb|epn,0.528361|0.205799|0.141207
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_10.jpg,epn,epb,0.427961,1,epb|chr|epo,0.427961|0.317787|0.152695
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_11.jpg,epn,epb,0.285943,1,epb|chr|epo,0.285943|0.279475|0.249312
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_12.jpg,epn,epb,0.268141,1,epb|chr|epo,0.268141|0.233209|0.213254
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_13.jpg,epn,epo,0.464220,0,epo|chr|epb,0.464220|0.355477|0.101067
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_14.jpg,epn,chr,0.278737,1,chr|epn|epb,0.278737|0.265673|0.175316
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_15.jpg,epn,chr,0.399179,1,chr|epo|epr,0.399179|0.361777|0.079641
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_16.jpg,epn,chr,0.554811,0,chr|epo|epb,0.554811|0.191919|0.086033
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_17.jpg,epn,chr,0.340814,1,chr|epo|epb,0.340814|0.306992|0.145424
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_18.jpg,epn,chr,0.363382,1,chr|epb|epo,0.363382|0.259934|0.171092
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_19.jpg,epn,chr,0.538453,0,chr|epo|epb,0.538453|0.204412|0.131209
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_2.jpg,epn,chr,0.294940,1,chr|epo|epn,0.294940|0.293232|0.154004
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_3.jpg,epn,chr,0.436458,1,chr|epn|epb,0.436458|0.368624|0.101101
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_4.jpg,epn,epo,0.327375,1,epo|chr|epb,0.327375|0.313145|0.131232
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_5.jpg,epn,epo,0.539691,0,epo|chr|epb,0.539691|0.175079|0.146338
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_6.jpg,epn,epo,0.459339,0,epo|chr|epb,0.459339|0.238689|0.152152
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_7.jpg,epn,epo,0.423825,1,epo|chr|epn,0.423825|0.388562|0.073111
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_8.jpg,epn,epo,0.701109,0,epo|chr|epr,0.701109|0.080721|0.077855
+src\data\testdata\EPN\698_EPN_107_GalaxyS5_20170622_100739_9.jpg,epn,epo,0.455661,0,epo|chr|epb,0.455661|0.282082|0.092592
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_10.jpg,epn,epb,0.450029,0,epb|chr|epo,0.450029|0.206647|0.140138
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_11.jpg,epn,chr,0.438568,1,chr|epo|epb,0.438568|0.271938|0.170588
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_12.jpg,epn,epn,0.287235,1,epn|epb|chr,0.287235|0.240654|0.236837
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_13.jpg,epn,epb,0.326612,1,epb|chr|epo,0.326612|0.320055|0.140350
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_14.jpg,epn,chr,0.532411,0,chr|epb|epo,0.532411|0.199275|0.162415
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_15.jpg,epn,chr,0.411277,1,chr|epb|epn,0.411277|0.266908|0.105804
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_16.jpg,epn,epb,0.348082,1,epb|chr|epn,0.348082|0.179136|0.164814
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_17.jpg,epn,chr,0.462936,0,chr|epo|epr,0.462936|0.247548|0.124789
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_18.jpg,epn,epb,0.303959,1,epb|chr|epn,0.303959|0.269565|0.145503
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_19.jpg,epn,chr,0.708136,0,chr|epo|epb,0.708136|0.120924|0.070606
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_2.jpg,epn,chr,0.277291,1,chr|epo|epn,0.277291|0.222232|0.200246
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_20.jpg,epn,chr,0.404724,1,chr|epr|epn,0.404724|0.183799|0.173224
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_21.jpg,epn,chr,0.359996,1,chr|epo|epn,0.359996|0.318370|0.127015
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_22.jpg,epn,chr,0.457137,0,chr|epr|epo,0.457137|0.246343|0.150747
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_23.jpg,epn,epo,0.386905,1,epo|epb|chr,0.386905|0.312822|0.223457
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_24.jpg,epn,epb,0.442926,1,epb|chr|epo,0.442926|0.295458|0.184584
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_25.jpg,epn,epo,0.413145,1,epo|chr|epb,0.413145|0.252778|0.223885
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_26.jpg,epn,epb,0.533207,0,epb|chr|epo,0.533207|0.179828|0.170850
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_3.jpg,epn,chr,0.389286,1,chr|epo|epn,0.389286|0.205536|0.157209
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_4.jpg,epn,epo,0.238339,1,epo|epn|chr,0.238339|0.224587|0.208817
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_5.jpg,epn,chr,0.347222,1,chr|epo|epb,0.347222|0.194571|0.193196
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_6.jpg,epn,epo,0.414250,1,epo|chr|epb,0.414250|0.345402|0.094704
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_7.jpg,epn,chr,0.529706,0,chr|epo|epb,0.529706|0.203375|0.175133
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_8.jpg,epn,epb,0.348338,1,epb|chr|epo,0.348338|0.300360|0.203618
+src\data\testdata\EPN\699_EPN_98_GalaxyS5_20170622_100838_9.jpg,epn,epb,0.440333,1,epb|chr|epo,0.440333|0.274592|0.127830
+src\data\testdata\EPN\700_EPN_69_GalaxyS5_20170622_101037_10.jpg,epn,chr,0.328501,1,chr|epn|epo,0.328501|0.317818|0.248861
+src\data\testdata\EPN\700_EPN_69_GalaxyS5_20170622_101037_11.jpg,epn,epo,0.342293,1,epo|epn|chr,0.342293|0.327454|0.191689
+src\data\testdata\EPN\700_EPN_69_GalaxyS5_20170622_101037_2.jpg,epn,epn,0.255294,1,epn|chr|epo,0.255294|0.249708|0.206460
+src\data\testdata\EPN\700_EPN_69_GalaxyS5_20170622_101037_3.jpg,epn,epb,0.279395,1,epb|chr|epo,0.279395|0.248876|0.235560
+src\data\testdata\EPN\700_EPN_69_GalaxyS5_20170622_101037_4.jpg,epn,epo,0.677891,0,epo|chr|epn,0.677891|0.122735|0.095666
+src\data\testdata\EPN\700_EPN_69_GalaxyS5_20170622_101037_5.jpg,epn,epo,0.302524,1,epo|chr|epn,0.302524|0.258910|0.171267
+src\data\testdata\EPN\700_EPN_69_GalaxyS5_20170622_101037_6.jpg,epn,epn,0.311752,1,epn|epo|chr,0.311752|0.268006|0.176682
+src\data\testdata\EPN\700_EPN_69_GalaxyS5_20170622_101037_7.jpg,epn,epo,0.775308,0,epo|chr|epn,0.775308|0.100934|0.047289
+src\data\testdata\EPN\700_EPN_69_GalaxyS5_20170622_101037_8.jpg,epn,epn,0.369352,1,epn|chr|epo,0.369352|0.330212|0.168042
+src\data\testdata\EPN\700_EPN_69_GalaxyS5_20170622_101037_9.jpg,epn,epn,0.645600,0,epn|chr|epo,0.645600|0.202863|0.051390
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_10.jpg,epo,epo,0.863130,0,epo|chr|epb,0.863130|0.088874|0.023563
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_11.jpg,epo,epo,0.499054,0,epo|chr|epb,0.499054|0.424541|0.028253
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_12.jpg,epo,epo,0.568633,0,epo|chr|epb,0.568633|0.346188|0.037526
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_13.jpg,epo,epo,0.648562,0,epo|chr|epb,0.648562|0.282680|0.030723
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_14.jpg,epo,epo,0.739239,0,epo|chr|epb,0.739239|0.132975|0.093579
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_15.jpg,epo,epo,0.700186,0,epo|chr|epb,0.700186|0.227117|0.037983
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_16.jpg,epo,chr,0.673652,0,chr|epo|epb,0.673652|0.188712|0.082256
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_17.jpg,epo,epo,0.561947,0,epo|chr|epb,0.561947|0.344558|0.050528
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_18.jpg,epo,chr,0.679860,0,chr|epo|epb,0.679860|0.136566|0.124403
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_19.jpg,epo,epo,0.539848,0,epo|chr|epb,0.539848|0.355496|0.062290
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_2.jpg,epo,epo,0.508848,0,epo|chr|epb,0.508848|0.248409|0.105124
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_20.jpg,epo,chr,0.436342,1,chr|epo|epb,0.436342|0.419349|0.100002
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_3.jpg,epo,epo,0.678676,0,epo|chr|epb,0.678676|0.224113|0.042576
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_4.jpg,epo,epo,0.775025,0,epo|chr|epn,0.775025|0.160617|0.027090
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_5.jpg,epo,epo,0.683085,0,epo|chr|epr,0.683085|0.251039|0.030668
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_6.jpg,epo,epo,0.885645,0,epo|chr|epr,0.885645|0.078324|0.016806
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_7.jpg,epo,epo,0.861870,0,epo|chr|epn,0.861870|0.103761|0.011221
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_8.jpg,epo,epo,0.741457,0,epo|chr|epb,0.741457|0.175061|0.044455
+src\data\testdata\EPO\113_EPO_190_Nexus 5_20170817_120336_9.jpg,epo,epo,0.744701,0,epo|chr|epr,0.744701|0.211786|0.018213
+src\data\testdata\EPO\114_EPO_90_Nexus 5_20170817_120917_10.jpg,epo,epo,0.755764,0,epo|chr|epb,0.755764|0.148300|0.051230
+src\data\testdata\EPO\114_EPO_90_Nexus 5_20170817_120917_11.jpg,epo,epb,0.333242,1,epb|epo|chr,0.333242|0.306525|0.265451
+src\data\testdata\EPO\114_EPO_90_Nexus 5_20170817_120917_12.jpg,epo,epo,0.329158,1,epo|epb|chr,0.329158|0.249959|0.199494
+src\data\testdata\EPO\114_EPO_90_Nexus 5_20170817_120917_2.jpg,epo,epo,0.471222,0,epo|epb|chr,0.471222|0.210431|0.186923
+src\data\testdata\EPO\114_EPO_90_Nexus 5_20170817_120917_3.jpg,epo,epb,0.332549,1,epb|epo|chr,0.332549|0.305873|0.213896
+src\data\testdata\EPO\114_EPO_90_Nexus 5_20170817_120917_4.jpg,epo,epb,0.311324,1,epb|chr|epo,0.311324|0.293905|0.252903
+src\data\testdata\EPO\114_EPO_90_Nexus 5_20170817_120917_5.jpg,epo,epo,0.626829,0,epo|chr|epr,0.626829|0.207916|0.065022
+src\data\testdata\EPO\114_EPO_90_Nexus 5_20170817_120917_6.jpg,epo,epo,0.391168,1,epo|chr|epb,0.391168|0.386342|0.095600
+src\data\testdata\EPO\114_EPO_90_Nexus 5_20170817_120917_7.jpg,epo,epo,0.470584,0,epo|chr|epb,0.470584|0.374702|0.080961
+src\data\testdata\EPO\114_EPO_90_Nexus 5_20170817_120917_8.jpg,epo,epo,0.584117,0,epo|chr|epb,0.584117|0.243893|0.093823
+src\data\testdata\EPO\114_EPO_90_Nexus 5_20170817_120917_9.jpg,epo,epo,0.460943,0,epo|chr|epr,0.460943|0.295707|0.105957
+src\data\testdata\EPO\115_EPO_94_Nexus 5_20170817_120952_10.jpg,epo,epo,0.590090,0,epo|epb|chr,0.590090|0.223471|0.121354
+src\data\testdata\EPO\115_EPO_94_Nexus 5_20170817_120952_11.jpg,epo,chr,0.772782,0,chr|epo|epb,0.772782|0.114440|0.040232
+src\data\testdata\EPO\115_EPO_94_Nexus 5_20170817_120952_12.jpg,epo,epo,0.597328,0,epo|chr|epb,0.597328|0.159899|0.133042
+src\data\testdata\EPO\115_EPO_94_Nexus 5_20170817_120952_13.jpg,epo,epb,0.365632,1,epb|epo|chr,0.365632|0.295439|0.184687
+src\data\testdata\EPO\115_EPO_94_Nexus 5_20170817_120952_2.jpg,epo,chr,0.489844,0,chr|epb|epo,0.489844|0.368181|0.084678
+src\data\testdata\EPO\115_EPO_94_Nexus 5_20170817_120952_3.jpg,epo,epo,0.755565,0,epo|chr|epb,0.755565|0.164325|0.033877
+src\data\testdata\EPO\115_EPO_94_Nexus 5_20170817_120952_4.jpg,epo,epo,0.618056,0,epo|chr|epb,0.618056|0.209494|0.124977
+src\data\testdata\EPO\115_EPO_94_Nexus 5_20170817_120952_5.jpg,epo,epo,0.455994,0,epo|chr|epb,0.455994|0.253176|0.164408
+src\data\testdata\EPO\115_EPO_94_Nexus 5_20170817_120952_6.jpg,epo,epo,0.747472,0,epo|chr|epb,0.747472|0.117907|0.099783
+src\data\testdata\EPO\115_EPO_94_Nexus 5_20170817_120952_7.jpg,epo,chr,0.388519,1,chr|epo|epb,0.388519|0.308717|0.188536
+src\data\testdata\EPO\115_EPO_94_Nexus 5_20170817_120952_8.jpg,epo,chr,0.292075,1,chr|epr|epo,0.292075|0.257398|0.183736
+src\data\testdata\EPO\115_EPO_94_Nexus 5_20170817_120952_9.jpg,epo,epo,0.780622,0,epo|epb|chr,0.780622|0.133349|0.054142
+src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_10.jpg,epo,epb,0.511118,0,epb|chr|epo,0.511118|0.226047|0.196359
+src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_11.jpg,epo,epo,0.508415,0,epo|epb|chr,0.508415|0.402645|0.049443
+src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_12.jpg,epo,epo,0.603335,0,epo|epb|chr,0.603335|0.233693|0.108273
+src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_13.jpg,epo,epb,0.583689,0,epb|chr|epo,0.583689|0.185688|0.166360
+src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_2.jpg,epo,epb,0.555120,0,epb|epo|chr,0.555120|0.225652|0.161472
+src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_3.jpg,epo,epb,0.472560,0,epb|epo|chr,0.472560|0.274472|0.193508
+src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_4.jpg,epo,epb,0.485351,0,epb|epo|chr,0.485351|0.365987|0.112360
+src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_5.jpg,epo,epo,0.416096,1,epo|epb|chr,0.416096|0.389748|0.135721
+src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_6.jpg,epo,epb,0.547796,0,epb|epo|chr,0.547796|0.238707|0.143040
+src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_7.jpg,epo,epb,0.575218,0,epb|epo|chr,0.575218|0.198978|0.146175
+src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_8.jpg,epo,epb,0.575707,0,epb|epo|chr,0.575707|0.210058|0.150978
+src\data\testdata\EPO\116_EPO_62_Nexus 5_20170817_121032_9.jpg,epo,epo,0.407709,1,epo|chr|epb,0.407709|0.323572|0.186470
+src\data\testdata\EPO\117_EPO_63_Nexus 5_20170817_121109_10.jpg,epo,epo,0.588613,0,epo|epb|chr,0.588613|0.207561|0.146595
+src\data\testdata\EPO\117_EPO_63_Nexus 5_20170817_121109_11.jpg,epo,epo,0.471265,0,epo|epb|chr,0.471265|0.354369|0.120621
+src\data\testdata\EPO\117_EPO_63_Nexus 5_20170817_121109_12.jpg,epo,epo,0.467283,0,epo|epb|chr,0.467283|0.276452|0.167961
+src\data\testdata\EPO\117_EPO_63_Nexus 5_20170817_121109_13.jpg,epo,epb,0.519160,0,epb|chr|epo,0.519160|0.173776|0.139662
+src\data\testdata\EPO\117_EPO_63_Nexus 5_20170817_121109_2.jpg,epo,epb,0.432686,1,epb|epo|chr,0.432686|0.337735|0.148929
+src\data\testdata\EPO\117_EPO_63_Nexus 5_20170817_121109_3.jpg,epo,epb,0.381272,1,epb|epo|chr,0.381272|0.331605|0.237719
+src\data\testdata\EPO\117_EPO_63_Nexus 5_20170817_121109_4.jpg,epo,epo,0.472303,0,epo|epb|chr,0.472303|0.286942|0.112807
+src\data\testdata\EPO\117_EPO_63_Nexus 5_20170817_121109_5.jpg,epo,epb,0.340652,1,epb|epo|chr,0.340652|0.302437|0.267302
+src\data\testdata\EPO\117_EPO_63_Nexus 5_20170817_121109_6.jpg,epo,epo,0.455608,0,epo|epb|chr,0.455608|0.347303|0.156369
+src\data\testdata\EPO\117_EPO_63_Nexus 5_20170817_121109_7.jpg,epo,epo,0.592079,0,epo|epb|chr,0.592079|0.247866|0.098747
+src\data\testdata\EPO\117_EPO_63_Nexus 5_20170817_121109_8.jpg,epo,epo,0.442015,1,epo|epb|chr,0.442015|0.263310|0.248499
+src\data\testdata\EPO\117_EPO_63_Nexus 5_20170817_121109_9.jpg,epo,epo,0.355894,1,epo|chr|epb,0.355894|0.321696|0.257790
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_10.jpg,epo,epo,0.467183,0,epo|epb|chr,0.467183|0.255662|0.148156
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_11.jpg,epo,epo,0.500884,0,epo|epb|epr,0.500884|0.344751|0.057854
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_12.jpg,epo,epo,0.535628,0,epo|epb|chr,0.535628|0.240904|0.176750
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_13.jpg,epo,epb,0.371775,1,epb|chr|epo,0.371775|0.265796|0.179615
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_14.jpg,epo,epo,0.657227,0,epo|epb|chr,0.657227|0.167308|0.106364
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_15.jpg,epo,epb,0.725173,0,epb|epo|chr,0.725173|0.145509|0.086979
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_16.jpg,epo,epb,0.735269,0,epb|chr|epo,0.735269|0.183055|0.038183
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_17.jpg,epo,chr,0.735472,0,chr|epo|epb,0.735472|0.084124|0.061341
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_18.jpg,epo,epb,0.696136,0,epb|chr|epo,0.696136|0.131583|0.114246
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_19.jpg,epo,epb,0.506900,0,epb|chr|epo,0.506900|0.309488|0.123006
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_2.jpg,epo,epo,0.484510,0,epo|epb|chr,0.484510|0.337278|0.099060
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_20.jpg,epo,chr,0.324486,1,chr|epb|epo,0.324486|0.298122|0.269077
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_3.jpg,epo,epo,0.473909,0,epo|epb|chr,0.473909|0.318540|0.145938
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_4.jpg,epo,epb,0.378833,1,epb|epo|chr,0.378833|0.337252|0.238131
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_5.jpg,epo,epo,0.446485,1,epo|epb|chr,0.446485|0.308881|0.165713
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_6.jpg,epo,chr,0.320181,1,chr|epb|epo,0.320181|0.314963|0.192935
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_7.jpg,epo,epo,0.574838,0,epo|chr|epb,0.574838|0.228072|0.150930
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_8.jpg,epo,epb,0.477953,0,epb|epo|chr,0.477953|0.277821|0.130426
+src\data\testdata\EPO\118_EPO_51_Nexus 5_20170817_121143_9.jpg,epo,epo,0.496078,0,epo|epb|chr,0.496078|0.280218|0.110320
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_10.jpg,epo,epb,0.430582,1,epb|epo|chr,0.430582|0.285202|0.199210
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_11.jpg,epo,chr,0.357242,1,chr|epo|epb,0.357242|0.264049|0.249842
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_12.jpg,epo,chr,0.599302,0,chr|epo|epb,0.599302|0.207822|0.079444
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_13.jpg,epo,chr,0.651964,0,chr|epb|epo,0.651964|0.213121|0.064819
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_14.jpg,epo,chr,0.406592,1,chr|epo|epb,0.406592|0.291178|0.191521
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_15.jpg,epo,epo,0.458182,0,epo|chr|epb,0.458182|0.267825|0.200541
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_16.jpg,epo,chr,0.507363,0,chr|epb|epo,0.507363|0.270379|0.173975
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_17.jpg,epo,epb,0.386602,1,epb|chr|epo,0.386602|0.340334|0.164387
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_18.jpg,epo,epb,0.378405,1,epb|epo|chr,0.378405|0.336599|0.210657
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_19.jpg,epo,chr,0.504307,0,chr|epb|epo,0.504307|0.345481|0.086781
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_2.jpg,epo,chr,0.575532,0,chr|epo|epb,0.575532|0.255785|0.104059
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_3.jpg,epo,chr,0.516265,0,chr|epb|epo,0.516265|0.273448|0.173903
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_4.jpg,epo,epo,0.681256,0,epo|epb|chr,0.681256|0.125941|0.119743
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_5.jpg,epo,chr,0.450901,0,chr|epo|epb,0.450901|0.281361|0.219527
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_6.jpg,epo,chr,0.320064,1,chr|epb|epo,0.320064|0.309749|0.269777
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_7.jpg,epo,epo,0.791606,0,epo|chr|epb,0.791606|0.127009|0.050502
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_8.jpg,epo,epo,0.547650,0,epo|epb|chr,0.547650|0.209228|0.188192
+src\data\testdata\EPO\119_EPO_105_Nexus 5_20170817_121237_9.jpg,epo,chr,0.387885,1,chr|epo|epb,0.387885|0.338542|0.227920
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_10.jpg,epo,chr,0.823978,0,chr|epo|epb,0.823978|0.052128|0.041257
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_11.jpg,epo,epo,0.751424,0,epo|chr|epb,0.751424|0.158653|0.027214
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_12.jpg,epo,epo,0.790147,0,epo|chr|epb,0.790147|0.110373|0.062442
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_13.jpg,epo,epo,0.421787,1,epo|chr|epb,0.421787|0.307132|0.203531
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_14.jpg,epo,epo,0.581974,0,epo|epb|chr,0.581974|0.212170|0.128727
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_15.jpg,epo,chr,0.444408,1,chr|epb|epo,0.444408|0.425487|0.081065
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_2.jpg,epo,epo,0.709394,0,epo|chr|epb,0.709394|0.140402|0.114792
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_3.jpg,epo,epo,0.581854,0,epo|chr|epb,0.581854|0.227749|0.144480
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_4.jpg,epo,epo,0.779897,0,epo|chr|epb,0.779897|0.105889|0.048937
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_5.jpg,epo,epo,0.703448,0,epo|chr|epb,0.703448|0.206541|0.042943
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_6.jpg,epo,epo,0.723638,0,epo|chr|epb,0.723638|0.116613|0.109457
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_7.jpg,epo,chr,0.592744,0,chr|epo|epn,0.592744|0.136931|0.079282
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_8.jpg,epo,chr,0.343479,1,chr|epo|epb,0.343479|0.333470|0.225145
+src\data\testdata\EPO\120_EPO_85_Nexus 5_20170817_121331_9.jpg,epo,epo,0.742657,0,epo|chr|epb,0.742657|0.154458|0.064333
+src\data\testdata\EPR\174_EPR_70_Nexus 5_20170608_094525_2.jpg,epr,chr,0.476757,0,chr|epo|epn,0.476757|0.190048|0.110976
+src\data\testdata\EPR\174_EPR_70_Nexus 5_20170608_094525_3.jpg,epr,chr,0.492434,0,chr|epo|epr,0.492434|0.223989|0.159791
+src\data\testdata\EPR\174_EPR_70_Nexus 5_20170608_094525_4.jpg,epr,epo,0.403697,1,epo|epr|chr,0.403697|0.236536|0.223100
+src\data\testdata\EPR\174_EPR_70_Nexus 5_20170608_094525_5.jpg,epr,chr,0.907119,0,chr|epr|epo,0.907119|0.040064|0.019087
+src\data\testdata\EPR\174_EPR_70_Nexus 5_20170608_094525_6.jpg,epr,chr,0.527815,0,chr|epo|epr,0.527815|0.201797|0.152603
+src\data\testdata\EPR\174_EPR_70_Nexus 5_20170608_094525_7.jpg,epr,chr,0.553027,0,chr|epr|epb,0.553027|0.168792|0.110718
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_10.jpg,epr,chr,0.347014,1,chr|epr|epo,0.347014|0.248881|0.247323
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_11.jpg,epr,chr,0.421973,1,chr|epr|epb,0.421973|0.160223|0.158597
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_12.jpg,epr,chr,0.696883,0,chr|epo|epr,0.696883|0.111720|0.073378
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_13.jpg,epr,chr,0.581058,0,chr|epo|epr,0.581058|0.202655|0.100327
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_14.jpg,epr,epo,0.413197,1,epo|chr|epr,0.413197|0.367729|0.134681
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_15.jpg,epr,chr,0.410102,1,chr|epo|epr,0.410102|0.278100|0.236461
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_16.jpg,epr,chr,0.651514,0,chr|epr|epo,0.651514|0.210729|0.082163
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_17.jpg,epr,chr,0.742062,0,chr|epr|epo,0.742062|0.102224|0.069696
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_18.jpg,epr,chr,0.652175,0,chr|epo|epr,0.652175|0.148921|0.102504
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_19.jpg,epr,chr,0.550987,0,chr|epo|epr,0.550987|0.160834|0.130307
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_2.jpg,epr,chr,0.388144,1,chr|epr|epo,0.388144|0.238370|0.211628
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_20.jpg,epr,chr,0.385601,1,chr|epo|epr,0.385601|0.282709|0.130525
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_21.jpg,epr,chr,0.602802,0,chr|epb|epo,0.602802|0.108011|0.102969
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_22.jpg,epr,epo,0.592654,0,epo|chr|epr,0.592654|0.206616|0.103907
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_23.jpg,epr,epo,0.345447,1,epo|epr|chr,0.345447|0.300258|0.209587
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_24.jpg,epr,chr,0.375541,1,chr|epo|epn,0.375541|0.221472|0.148972
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_25.jpg,epr,epo,0.315902,1,epo|chr|epb,0.315902|0.289917|0.132852
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_26.jpg,epr,chr,0.309242,1,chr|epr|epo,0.309242|0.296904|0.225520
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_27.jpg,epr,chr,0.536237,0,chr|epr|epo,0.536237|0.255476|0.125188
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_28.jpg,epr,chr,0.348105,1,chr|epb|epo,0.348105|0.225994|0.187479
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_29.jpg,epr,chr,0.365185,1,chr|epo|epn,0.365185|0.316003|0.097483
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_3.jpg,epr,chr,0.415078,1,chr|epo|epr,0.415078|0.243523|0.225005
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_30.jpg,epr,chr,0.419770,1,chr|epr|epo,0.419770|0.281706|0.158752
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_31.jpg,epr,chr,0.370876,1,chr|epr|epo,0.370876|0.246248|0.222406
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_32.jpg,epr,chr,0.515311,0,chr|epo|epr,0.515311|0.152828|0.127851
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_33.jpg,epr,chr,0.834514,0,chr|epr|epo,0.834514|0.055677|0.042232
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_34.jpg,epr,chr,0.595865,0,chr|epr|epo,0.595865|0.173539|0.146657
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_35.jpg,epr,chr,0.567748,0,chr|epo|epr,0.567748|0.217876|0.142507
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_36.jpg,epr,chr,0.419541,1,chr|epr|epo,0.419541|0.201596|0.189139
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_37.jpg,epr,epo,0.355685,1,epo|chr|epr,0.355685|0.351931|0.157405
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_38.jpg,epr,chr,0.500176,0,chr|epo|epn,0.500176|0.252393|0.116066
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_4.jpg,epr,epr,0.376317,1,epr|chr|epo,0.376317|0.296935|0.203192
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_5.jpg,epr,chr,0.743044,0,chr|epr|epb,0.743044|0.078445|0.067439
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_6.jpg,epr,chr,0.586053,0,chr|epr|epo,0.586053|0.227611|0.106528
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_7.jpg,epr,chr,0.418491,1,chr|epo|epr,0.418491|0.324612|0.126528
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_8.jpg,epr,chr,0.374057,1,chr|epo|epr,0.374057|0.353295|0.114174
+src\data\testdata\EPR\175_EPR_42_Nexus 5_20170608_094645_9.jpg,epr,chr,0.417216,1,chr|epo|epn,0.417216|0.300192|0.106680
+src\data\testdata\EPR\176_EPR_50_Nexus 5_20170608_102218_2.jpg,epr,epo,0.381322,1,epo|epb|chr,0.381322|0.269905|0.217824
+src\data\testdata\EPR\176_EPR_50_Nexus 5_20170608_102218_3.jpg,epr,epo,0.471591,0,epo|epr|chr,0.471591|0.236287|0.184850
+src\data\testdata\EPR\176_EPR_50_Nexus 5_20170608_102218_4.jpg,epr,epb,0.281027,1,epb|epr|epo,0.281027|0.245686|0.214182
+src\data\testdata\EPR\176_EPR_50_Nexus 5_20170608_102218_5.jpg,epr,chr,0.542615,0,chr|epo|epr,0.542615|0.182746|0.126863
+src\data\testdata\EPR\176_EPR_50_Nexus 5_20170608_102218_6.jpg,epr,epo,0.553250,0,epo|epr|chr,0.553250|0.156118|0.128964
+src\data\testdata\EPR\176_EPR_50_Nexus 5_20170608_102218_7.jpg,epr,epo,0.479842,0,epo|chr|epb,0.479842|0.298420|0.095935
+src\data\testdata\EPR\176_EPR_50_Nexus 5_20170608_102218_8.jpg,epr,chr,0.444424,1,chr|epb|epo,0.444424|0.275790|0.196171
+src\data\testdata\EPR\176_EPR_50_Nexus 5_20170608_102218_9.jpg,epr,chr,0.523235,0,chr|epr|epo,0.523235|0.201916|0.158414
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_10.jpg,epr,chr,0.495230,0,chr|epo|epr,0.495230|0.217725|0.093037
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_11.jpg,epr,chr,0.584429,0,chr|epo|epb,0.584429|0.130171|0.107563
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_12.jpg,epr,chr,0.680715,0,chr|epb|epr,0.680715|0.100446|0.082157
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_13.jpg,epr,chr,0.608290,0,chr|epr|epo,0.608290|0.117944|0.116323
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_14.jpg,epr,chr,0.676631,0,chr|epr|epo,0.676631|0.105049|0.084077
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_15.jpg,epr,chr,0.346591,1,chr|epo|epb,0.346591|0.264985|0.169480
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_2.jpg,epr,chr,0.328663,1,chr|epo|epb,0.328663|0.287340|0.136359
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_3.jpg,epr,chr,0.636473,0,chr|epo|epr,0.636473|0.132911|0.093764
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_4.jpg,epr,chr,0.505818,0,chr|epo|epb,0.505818|0.188961|0.101793
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_5.jpg,epr,chr,0.504288,0,chr|epo|epb,0.504288|0.137705|0.112676
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_6.jpg,epr,chr,0.552657,0,chr|epo|epb,0.552657|0.157238|0.098473
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_7.jpg,epr,chr,0.571057,0,chr|epb|epo,0.571057|0.151004|0.120109
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_8.jpg,epr,chr,0.336287,1,chr|epo|epb,0.336287|0.284376|0.123821
+src\data\testdata\EPR\177_EPR_87_Nexus 5_20170608_102305_9.jpg,epr,chr,0.555255,0,chr|epb|epo,0.555255|0.168272|0.149931
+src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_10.jpg,erb,chr,0.391033,1,chr|epo|epb,0.391033|0.203733|0.176114
+src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_11.jpg,erb,chr,0.797139,0,chr|epb|epo,0.797139|0.062623|0.059988
+src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_12.jpg,erb,epb,0.426100,1,epb|epn|chr,0.426100|0.309914|0.156663
+src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_13.jpg,erb,epb,0.638107,0,epb|chr|epo,0.638107|0.116600|0.087670
+src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_14.jpg,erb,chr,0.345635,1,chr|epn|epo,0.345635|0.211961|0.188787
+src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_2.jpg,erb,chr,0.605345,0,chr|epo|epb,0.605345|0.119644|0.113713
+src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_3.jpg,erb,chr,0.547484,0,chr|epb|epo,0.547484|0.288149|0.062844
+src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_4.jpg,erb,chr,0.285983,1,chr|epn|epb,0.285983|0.261423|0.194952
+src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_5.jpg,erb,epb,0.389155,1,epb|chr|epo,0.389155|0.290761|0.111893
+src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_6.jpg,erb,chr,0.506362,0,chr|epr|epb,0.506362|0.117490|0.115765
+src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_7.jpg,erb,chr,0.733164,0,chr|epo|epb,0.733164|0.080306|0.061144
+src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_8.jpg,erb,chr,0.545340,0,chr|epb|epo,0.545340|0.164102|0.155804
+src\data\testdata\ERB\541_ERB_70_GalaxyS5_20170607_151651_9.jpg,erb,chr,0.690744,0,chr|epn|epo,0.690744|0.083735|0.070416

@@ -1,0 +1,21 @@
+path,true_label,pred_label,pred_prob,uncertain,topk_labels,topk_probs
+data\external1\linden\lindenNet0.jpg,linden,chestnut,0.694651,0,chestnut|linden,0.694651|0.089428
+data\external1\linden\lindenNet1.jpg,linden,chestnut,0.320260,1,chestnut|oak,0.320260|0.174009
+data\external1\linden\lindenNet2.jpg,linden,alder,0.322042,1,alder|linden,0.322042|0.182548
+data\external1\linden\lindenNet3.jpg,linden,chestnut,0.212795,1,chestnut|birch,0.212795|0.155712
+data\external1\linden\lindenNet4.jpg,linden,chestnut,0.281343,1,chestnut|pine,0.281343|0.153754
+data\external1\linden\lindenNet5.jpg,linden,spruce,0.205992,1,spruce|alder,0.205992|0.129834
+data\external1\linden\lindenNet6.jpg,linden,oriental plane,0.275628,1,oriental plane|pine,0.275628|0.171264
+data\external1\linden\lindenNet7.jpg,linden,pine,0.286659,1,pine|alder,0.286659|0.156691
+data\external1\linden\lindenNet8.jpg,linden,oak,0.251918,1,oak|pine,0.251918|0.185098
+data\external1\linden\lindenNet9.jpg,linden,oak,0.467933,0,oak|alder,0.467933|0.123423
+data\external1\oak\oakNet0.jpg,oak,linden,0.487736,0,linden|chestnut,0.487736|0.117213
+data\external1\oak\oakNet1.jpg,oak,ginkgo biloba,0.232656,1,ginkgo biloba|pine,0.232656|0.171420
+data\external1\oak\oakNet2.jpg,oak,birch,0.387780,1,birch|alder,0.387780|0.129718
+data\external1\oak\oakNet3.jpg,oak,spruce,0.381430,1,spruce|alder,0.381430|0.133582
+data\external1\oak\oakNet4.jpg,oak,birch,0.375475,1,birch|spruce,0.375475|0.132463
+data\external1\oak\oakNet5.jpg,oak,linden,0.504293,0,linden|oak,0.504293|0.160355
+data\external1\oak\oakNet6.jpg,oak,pine,0.404133,1,pine|oak,0.404133|0.202206
+data\external1\oak\oakNet7.jpg,oak,chestnut,0.323833,1,chestnut|linden,0.323833|0.312517
+data\external1\oak\oakNet8.jpg,oak,birch,0.179519,1,birch|oriental plane,0.179519|0.127393
+data\external1\oak\oakNet9.jpg,oak,pine,0.357088,1,pine|alder,0.357088|0.103590

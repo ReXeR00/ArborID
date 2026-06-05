@@ -1,13 +1,20 @@
 #configs/data_barknet.yaml
 
-root: src/data/traindata
+raw_dir: src/data/rawdata
+train_dir: src/data/train
+val_dir: src/data/validation
+test_dir: src/data/test
+split_if_missing: true
+train_ratio: 0.85
+val_ratio: 0.05
+test_ratio: 0.10
+copy_files: true
+force_resplit: false
 batch_size: 32
 num_workers: 0
 pin_memory: true
 img_size: 224
 max_images_per_class: null
-val_size: 0.15
-test_size: 0.15
 seed: 42
 use_weighted_sampler: true
 use_class_weights: false

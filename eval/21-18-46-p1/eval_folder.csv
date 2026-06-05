@@ -1,0 +1,40 @@
+path,true_label,pred_label,pred_prob,uncertain,topk_labels,topk_probs
+src\data\raw\test\alder\0.jpg,alder,alder,0.605951,0,alder|linden|spruce,0.605951|0.087881|0.049362
+src\data\raw\test\alder\1.jpg,alder,alder,0.785217,0,alder|horse chestnut|linden,0.785217|0.044223|0.035377
+src\data\raw\test\alder\2.jpg,alder,alder,0.719068,0,alder|horse chestnut|linden,0.719068|0.087094|0.041217
+src\data\raw\test\beech\0.jpg,beech,beech,0.936365,0,beech|spruce|hornbeam,0.936365|0.009262|0.009079
+src\data\raw\test\beech\1.jpg,beech,beech,0.960315,0,beech|hornbeam|oriental plane,0.960315|0.007492|0.005424
+src\data\raw\test\beech\2.jpg,beech,beech,0.903799,0,beech|hornbeam|oriental plane,0.903799|0.029848|0.009549
+src\data\raw\test\birch\0.jpg,birch,birch,0.465570,0,birch|alder|oriental plane,0.465570|0.074396|0.059598
+src\data\raw\test\birch\1.jpg,birch,birch,0.855753,0,birch|spruce|alder,0.855753|0.020287|0.018104
+src\data\raw\test\birch\2.jpg,birch,birch,0.920230,0,birch|pine|spruce,0.920230|0.010835|0.010659
+src\data\raw\test\birch\3.jpg,birch,birch,0.784222,0,birch|spruce|chestnut,0.784222|0.033180|0.030580
+src\data\raw\test\chestnut\0.jpg,chestnut,chestnut,0.877634,0,chestnut|linden|oak,0.877634|0.024089|0.021848
+src\data\raw\test\chestnut\1.jpg,chestnut,chestnut,0.936221,0,chestnut|linden|oak,0.936221|0.021343|0.010508
+src\data\raw\test\chestnut\2.jpg,chestnut,chestnut,0.394556,1,chestnut|oak|linden,0.394556|0.184451|0.124410
+src\data\raw\test\ginkgo biloba\0.jpg,ginkgo biloba,ginkgo biloba,0.936466,0,ginkgo biloba|horse chestnut|hornbeam,0.936466|0.009867|0.007417
+src\data\raw\test\ginkgo biloba\1.jpg,ginkgo biloba,ginkgo biloba,0.944440,0,ginkgo biloba|pine|horse chestnut,0.944440|0.012242|0.010200
+src\data\raw\test\ginkgo biloba\2.jpg,ginkgo biloba,ginkgo biloba,0.972262,0,ginkgo biloba|horse chestnut|hornbeam,0.972262|0.004746|0.003478
+src\data\raw\test\hornbeam\0.jpg,hornbeam,hornbeam,0.907076,0,hornbeam|beech|oak,0.907076|0.015819|0.011378
+src\data\raw\test\hornbeam\1.jpg,hornbeam,hornbeam,0.911679,0,hornbeam|oak|linden,0.911679|0.013960|0.011741
+src\data\raw\test\hornbeam\2.jpg,hornbeam,hornbeam,0.859565,0,hornbeam|oak|linden,0.859565|0.022431|0.019697
+src\data\raw\test\horse chestnut\0.jpg,horse chestnut,horse chestnut,0.926418,0,horse chestnut|pine|ginkgo biloba,0.926418|0.012355|0.011158
+src\data\raw\test\horse chestnut\1.jpg,horse chestnut,horse chestnut,0.816994,0,horse chestnut|pine|linden,0.816994|0.039902|0.034655
+src\data\raw\test\horse chestnut\2.jpg,horse chestnut,horse chestnut,0.818710,0,horse chestnut|linden|spruce,0.818710|0.035362|0.021384
+src\data\raw\test\linden\0.jpg,linden,linden,0.370799,1,linden|oak|horse chestnut,0.370799|0.203410|0.148904
+src\data\raw\test\linden\1.jpg,linden,linden,0.920985,0,linden|horse chestnut|chestnut,0.920985|0.015842|0.012990
+src\data\raw\test\linden\2.jpg,linden,linden,0.866111,0,linden|chestnut|oak,0.866111|0.043243|0.025805
+src\data\raw\test\oak\0.jpg,oak,oak,0.933937,0,oak|linden|chestnut,0.933937|0.016723|0.012077
+src\data\raw\test\oak\1.jpg,oak,oak,0.824853,0,oak|chestnut|linden,0.824853|0.046088|0.032814
+src\data\raw\test\oak\2.jpg,oak,oak,0.754694,0,oak|linden|spruce,0.754694|0.047391|0.046778
+src\data\raw\test\oak\3.jpg,oak,alder,0.260965,1,alder|linden|spruce,0.260965|0.241904|0.106608
+src\data\raw\test\oriental plane\0.jpg,oriental plane,oriental plane,0.838801,0,oriental plane|beech|horse chestnut,0.838801|0.021637|0.020592
+src\data\raw\test\oriental plane\1.jpg,oriental plane,oriental plane,0.839314,0,oriental plane|horse chestnut|linden,0.839314|0.027756|0.020012
+src\data\raw\test\oriental plane\2.jpg,oriental plane,oriental plane,0.947279,0,oriental plane|hornbeam|linden,0.947279|0.007924|0.006954
+src\data\raw\test\pine\0.jpg,pine,pine,0.862747,0,pine|horse chestnut|chestnut,0.862747|0.024301|0.020198
+src\data\raw\test\pine\1.jpg,pine,pine,0.931669,0,pine|linden|horse chestnut,0.931669|0.010724|0.010645
+src\data\raw\test\pine\2.jpg,pine,pine,0.921383,0,pine|horse chestnut|linden,0.921383|0.013537|0.011284
+src\data\raw\test\spruce\0.jpg,spruce,spruce,0.885295,0,spruce|beech|alder,0.885295|0.015170|0.012779
+src\data\raw\test\spruce\1.jpg,spruce,spruce,0.932253,0,spruce|horse chestnut|oriental plane,0.932253|0.010277|0.007515
+src\data\raw\test\spruce\2.jpg,spruce,spruce,0.910772,0,spruce|alder|horse chestnut,0.910772|0.013175|0.011751
+src\data\raw\test\spruce\3.jpg,spruce,spruce,0.908399,0,spruce|beech|chestnut,0.908399|0.016021|0.009748
